@@ -1,4 +1,2 @@
-mod num;
-
-#[allow(unused_imports)]
-pub use num::Number;
+mod number;
+pub use number::number;

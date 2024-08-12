@@ -1,14 +1,9 @@
-use crate::{Parser, ParsingResult};
+use crate::ParsingResult;
 
-pub struct Delimiter;
-impl Parser for Delimiter {
-    fn parse<'a>(input: &'a str) -> ParsingResult<'a> {
-        match input.chars().next() {
-            Some(c) if c.is_whitespace() || c.is_ascii_punctuation() => {
-                Ok((&input[c.len_utf8()..], c.to_string()))
-            }
-            _ => Err(input),
-        }
+pub fn delimiter(input: &str) -> ParsingResult<char> {
+    match input.chars().next() {
+        Some(c) if c.is_whitespace() || c.is_ascii_punctuation() => Ok((&input[c.len_utf8()..], c)),
+        _ => Err(input),
     }
 }
 
@@ -17,7 +12,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn whitespace_parsing() {
+    fn delimiter_parsing() {
         let input = vec![
             "zho-zho",
             ".to_string()",
@@ -29,10 +24,10 @@ mod tests {
 
         let expected = vec![
             Err("zho-zho"),
-            Ok(("to_string()", String::from("."))),
-            Ok(("foo-foo", String::from(" "))),
-            Ok(("comma", String::from(","))),
-            Ok((" dollar sign", String::from("$"))),
+            Ok(("to_string()", '.')),
+            Ok(("foo-foo", ' ')),
+            Ok(("comma", ',')),
+            Ok((" dollar sign", '$')),
             Err("Q letter"),
         ];
 
@@ -44,7 +39,7 @@ mod tests {
 
         let source_data = input.iter().zip(expected.iter());
         for (input, expected) in source_data {
-            let got = Delimiter::parse(&input);
+            let got = delimiter(&input);
             assert_eq!(*expected, got);
         }
     }

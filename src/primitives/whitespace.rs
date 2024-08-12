@@ -1,12 +1,9 @@
-use crate::{Parser, ParsingResult};
+use crate::ParsingResult;
 
-pub struct Whitespace;
-impl Parser for Whitespace {
-    fn parse<'a>(input: &'a str) -> ParsingResult<'a> {
-        match input.chars().next() {
-            Some(c) if c.is_whitespace() => Ok((&input[c.len_utf8()..], c.to_string())),
-            _ => Err(input),
-        }
+pub fn whitespace(input: &str) -> ParsingResult<()> {
+    match input.chars().next() {
+        Some(c) if c.is_whitespace() => Ok((&input[c.len_utf8()..], ())),
+        _ => Err(input),
     }
 }
 
@@ -28,10 +25,10 @@ mod tests {
         let expected = vec![
             Err("zho-zho"),
             Err(".to_string()"),
-            Ok(("foo-foo", String::from(" "))),
-            Ok(("nice", String::from("\t"))),
-            Ok(("\tLF TAB", String::from("\n"))),
-            Ok((" ", String::from(" "))),
+            Ok(("foo-foo", ())),
+            Ok(("nice", ())),
+            Ok(("\tLF TAB", ())),
+            Ok((" ", ())),
         ];
 
         assert_eq!(
@@ -42,7 +39,7 @@ mod tests {
 
         let source_data = input.iter().zip(expected.iter());
         for (input, expected) in source_data {
-            let got = Whitespace::parse(&input);
+            let got = whitespace(&input);
             assert_eq!(*expected, got);
         }
     }
