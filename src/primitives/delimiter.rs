@@ -11,3 +11,41 @@ impl Parser for Delimiter {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn whitespace_parsing() {
+        let input = vec![
+            "zho-zho",
+            ".to_string()",
+            " foo-foo",
+            ",comma",
+            "$ dollar sign",
+            "Q letter",
+        ];
+
+        let expected = vec![
+            Err("zho-zho"),
+            Ok(("to_string()", String::from("."))),
+            Ok(("foo-foo", String::from(" "))),
+            Ok(("comma", String::from(","))),
+            Ok((" dollar sign", String::from("$"))),
+            Err("Q letter"),
+        ];
+
+        assert_eq!(
+            input.len(),
+            expected.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        let source_data = input.iter().zip(expected.iter());
+        for (input, expected) in source_data {
+            let got = Delimiter::parse(&input);
+            assert_eq!(*expected, got);
+        }
+    }
+}
