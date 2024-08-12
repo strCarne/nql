@@ -22,7 +22,10 @@ impl Parser for Number {
                     matched += &parsed_seq;
                 }
                 _ => match Point::parse(&input) {
-                    Ok((next_seq, parsed_seq)) => {
+                    Ok((next_seq, parsed_seq))
+                        if !next_seq.is_empty()
+                            && next_seq.chars().next().unwrap().is_ascii_digit() =>
+                    {
                         input = next_seq;
                         matched += &parsed_seq;
                         break;
@@ -55,17 +58,12 @@ impl Parser for Number {
 }
 
 struct Digit;
-impl Digit {
-    fn is_digit(c: char) -> bool {
-        '0' <= c && c <= '9'
-    }
-}
 impl Parser for Digit {
     fn parse<'a>(input: &'a str) -> ParsingResult<'a> {
         let mut matched = String::with_capacity(1);
 
         match input.chars().next() {
-            Some(c) if Self::is_digit(c) => {
+            Some(c) if c.is_ascii_digit() => {
                 matched.push(c);
                 Ok((&input[c.len_utf8()..], matched))
             }
@@ -112,7 +110,7 @@ mod tests {
             Err(" 124"),
             Err(""),
             Err("."),
-            Err(""),
+            Ok((".", String::from("3214"))),
             Ok(("", String::from("124.1"))),
             Ok(("", String::from("214124.124124"))),
         ];
