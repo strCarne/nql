@@ -1,6 +1,6 @@
 pub mod basic_types;
+pub mod primitives;
 
-#[allow(unused_imports)]
 pub use basic_types::*;
 
 type NextSeq<'a> = &'a str;
