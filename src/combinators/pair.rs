@@ -64,4 +64,61 @@ mod tests {
         }
     }
 
+    #[test]
+    fn pair_combinator_number_number() {
+        let input_data = vec![
+            "123 124",
+            "69.69",
+            " 123 124 hehe, whitespace at the start",
+            "10.72.144.25",
+        ];
+
+        let parsers = vec![
+            (
+                basic_types::number,
+                primitives::literal(" "),
+                basic_types::number,
+            ),
+            (
+                basic_types::number,
+                primitives::literal("."),
+                basic_types::number,
+            ),
+            (
+                basic_types::number,
+                primitives::literal(" "),
+                basic_types::number,
+            ),
+            (
+                basic_types::number,
+                primitives::literal("."),
+                basic_types::number,
+            ),
+        ];
+
+        let expected_results = vec![
+            Ok(("", (Number::Integer(123), Number::Integer(124)))),
+            Err(""),
+            Err(" 123 124 hehe, whitespace at the start"),
+            Ok(("", (Number::Float(10.72), Number::Float(144.25)))),
+        ];
+
+        assert!(
+            input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
+            "BAD TEST: number of input is not equal to number of results [correct the source data]"
+        );
+
+        let dataset = input_data
+            .into_iter()
+            .zip(parsers.into_iter())
+            .zip(expected_results.into_iter());
+
+        for ((input, parser), expected) in dataset {
+            let pair_value_parser = pair(combinators::left(parser.0, parser.1), parser.2);
+
+            let result = pair_value_parser.parse(input);
+
+            assert_eq!(expected, result);
+        }
+    }
 }
