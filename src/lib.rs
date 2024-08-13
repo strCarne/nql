@@ -1,5 +1,6 @@
 pub mod basic_types;
 pub mod primitives;
+pub mod combinators;
 
 type NextInput<'a> = &'a str;
 type Input<'a> = &'a str;
