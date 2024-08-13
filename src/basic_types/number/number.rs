@@ -1,4 +1,4 @@
-use crate::{primitives, Parser, ParsingResult};
+use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
@@ -17,8 +17,10 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
         _ => (),
     }
 
+    let digit = combinators::pred(primitives::any, |c| c.is_ascii_digit());
+    
     // 2. Reading first digit.
-    match primitives::digit(&input) {
+    match digit.parse(&input) {
         Ok((next_seq, digit)) => {
             input = next_seq;
             matched.push(digit);
@@ -26,14 +28,16 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
         _ => return Err(input),
     }
 
+    let point = combinators::pred(primitives::any, |c| *c == '.');
+
     // 3. Reading int number.
     loop {
-        match primitives::digit(&input) {
+        match digit.parse(&input) {
             Ok((next_seq, digit)) => {
                 input = next_seq;
                 matched.push(digit);
             }
-            _ => match primitives::point(&input) {
+            _ => match point.parse(&input) {
                 Ok((next_seq, point))
                     if !next_seq.is_empty()
                         && next_seq.chars().next().unwrap().is_ascii_digit() =>
@@ -57,7 +61,7 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
     }
 
     // 4. Reading first digit after a point in float number.
-    match primitives::digit(&input) {
+    match digit.parse(&input) {
         Ok((next_seq, point)) => {
             input = next_seq;
             matched.push(point);
@@ -67,7 +71,7 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
 
     // 5. Reading float number.
     loop {
-        match primitives::digit(&input) {
+        match digit.parse(&input) {
             Ok((next_seq, digit)) => {
                 input = next_seq;
                 matched.push(digit);

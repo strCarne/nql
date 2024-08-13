@@ -1,4 +1,4 @@
-use crate::{primitives, Parser, ParsingResult};
+use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
@@ -16,8 +16,10 @@ pub fn int_number(mut input: &str) -> ParsingResult<Number> {
         _ => (),
     }
 
+    let digit = combinators::pred(primitives::any, |c| c.is_ascii_digit());
+
     // 2. Reading first digit.
-    match primitives::digit(&input) {
+    match digit.parse(&input) {
         Ok((next_seq, digit)) => {
             input = next_seq;
             matched.push(digit);
@@ -27,7 +29,7 @@ pub fn int_number(mut input: &str) -> ParsingResult<Number> {
 
     // 3. Reading int part of a number.
     loop {
-        match primitives::digit(&input) {
+        match digit.parse(&input) {
             Ok((next_seq, digit)) => {
                 input = next_seq;
                 matched.push(digit);
