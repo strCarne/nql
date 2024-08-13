@@ -1,9 +1,23 @@
-use crate::{primitives, ParsingResult};
+use crate::{primitives, Parser, ParsingResult};
 
-pub fn number(mut input: &str) -> ParsingResult<String> {
+use super::Number;
+
+// number can be float_number or int_number, depending on the input
+pub fn number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 
-    // 1. Reading first digit.
+    // 1. Check for minus at the start
+    match primitives::literal("-").parse(input) {
+        Ok((next_input, _))
+            if !next_input.is_empty() && next_input.chars().next().unwrap().is_ascii_digit() =>
+        {
+            input = next_input;
+            matched.push('-');
+        }
+        _ => (),
+    }
+
+    // 2. Reading first digit.
     match primitives::digit(&input) {
         Ok((next_seq, digit)) => {
             input = next_seq;
@@ -12,7 +26,7 @@ pub fn number(mut input: &str) -> ParsingResult<String> {
         _ => return Err(input),
     }
 
-    // 2. Reading int number.
+    // 3. Reading int number.
     loop {
         match primitives::digit(&input) {
             Ok((next_seq, digit)) => {
@@ -28,12 +42,21 @@ pub fn number(mut input: &str) -> ParsingResult<String> {
                     matched.push(point);
                     break;
                 }
-                _ => return Ok((input, matched)),
+                _ => {
+                    return Ok((
+                        input,
+                        Number::Integer(
+                            matched
+                                .parse()
+                                .expect("Parser 'number' parsed integer number incorrectly"),
+                        ),
+                    ))
+                }
             },
         }
     }
 
-    // 3. Reading first digit after a point in float number.
+    // 4. Reading first digit after a point in float number.
     match primitives::digit(&input) {
         Ok((next_seq, point)) => {
             input = next_seq;
@@ -42,14 +65,23 @@ pub fn number(mut input: &str) -> ParsingResult<String> {
         _ => return Err(input),
     }
 
-    // 4. Reading float number.
+    // 5. Reading float number.
     loop {
         match primitives::digit(&input) {
             Ok((next_seq, digit)) => {
                 input = next_seq;
                 matched.push(digit);
             }
-            _ => return Ok((input, matched)),
+            _ => {
+                return Ok((
+                    input,
+                    Number::Float(
+                        matched
+                            .parse()
+                            .expect("Parser 'number' parsed float number incorrectly"),
+                    ),
+                ))
+            }
         }
     }
 }
@@ -57,6 +89,8 @@ pub fn number(mut input: &str) -> ParsingResult<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn number_parsing() {
@@ -69,17 +103,23 @@ mod tests {
             "3214.",
             "124.1",
             "214124.124124",
+            "-1124",
+            "-12451.",
+            "-124.14",
         ];
 
         let expected = vec![
-            Ok(("", String::from("123"))),
-            Ok((" ", String::from("531"))),
+            Ok(("", Number::Integer(123))),
+            Ok((" ", Number::Integer(531))),
             Err(" 124"),
             Err(""),
             Err("."),
-            Ok((".", String::from("3214"))),
-            Ok(("", String::from("124.1"))),
-            Ok(("", String::from("214124.124124"))),
+            Ok((".", Number::Integer(3214))),
+            Ok(("", Number::Float(124.1))),
+            Ok(("", Number::Float(214124.124124))),
+            Ok(("", Number::Integer(-1124))),
+            Ok((".", Number::Integer(-12451))),
+            Ok(("", Number::Float(-124.14))),
         ];
 
         assert_eq!(
