@@ -5,7 +5,7 @@ mod delimiter;
 pub use delimiter::delimiter;
 
 mod literal;
-pub use literal::literal;
+pub use literal::{iliteral, literal};
 
 mod digit;
 pub use digit::digit;
