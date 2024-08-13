@@ -18,3 +18,6 @@ pub use single_of::single_of;
 
 mod zero_or_one;
 pub use zero_or_one::zero_or_one;
+
+mod pred;
+pub use pred::pred;
