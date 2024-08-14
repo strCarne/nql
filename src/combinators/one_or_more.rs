@@ -37,10 +37,9 @@ mod tests {
 
         let parsers: Vec<Box<dyn Parser<Vec<()>>>> = vec![
             Box::new(one_or_more(primitives::literal("a milli "))),
-            Box::new(one_or_more(combinators::map(
-                combinators::pred(primitives::any, |c| c.is_whitespace()),
-                |_| (),
-            ))),
+            Box::new(one_or_more(
+                combinators::pred(primitives::any, |c| c.is_whitespace()).map(|_| ()),
+            )),
             Box::new(one_or_more(primitives::literal(" "))),
         ];
         let parsers = parsers.into_iter();

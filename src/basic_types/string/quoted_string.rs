@@ -7,20 +7,18 @@ pub enum QuoteType {
 
 pub fn quoted_string<'a>(quote_type: QuoteType) -> impl Parser<'a, String> {
     let quote = match quote_type {
-        QuoteType::Single => "'",
-        QuoteType::Double => "\"",
+        QuoteType::Single => '\'',
+        QuoteType::Double => '"',
     };
 
-    combinators::map(
-        combinators::right(
-            primitives::literal(quote),
-            combinators::left(
-                combinators::zero_or_more(combinators::pred(primitives::any, |c| *c != '"')),
-                primitives::literal(quote),
-            ),
+    combinators::right(
+        primitives::character(quote),
+        combinators::left(
+            combinators::zero_or_more(combinators::pred(primitives::any, move |c| *c != quote)),
+            primitives::character(quote),
         ),
-        |chars| chars.into_iter().collect(),
     )
+    .map(|chars| chars.into_iter().collect())
 }
 
 #[cfg(test)]

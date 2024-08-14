@@ -2,18 +2,22 @@ use crate::Parser;
 
 pub fn left<'a, P1, P2, R1, R2>(parser_1: P1, parser_2: P2) -> impl Parser<'a, R1>
 where
-    P1: Parser<'a, R1>,
-    P2: Parser<'a, R2>,
+    P1: Parser<'a, R1> + 'a,
+    P2: Parser<'a, R2> + 'a,
+    R1: 'a,
+    R2: 'a,
 {
-    super::map(super::pair(parser_1, parser_2), |(left, _right)| left)
+    super::pair(parser_1, parser_2).map(|(left, _right)| left)
 }
 
 pub fn right<'a, P1, P2, R1, R2>(parser_1: P1, parser_2: P2) -> impl Parser<'a, R2>
 where
-    P1: Parser<'a, R1>,
-    P2: Parser<'a, R2>,
+    P1: Parser<'a, R1> + 'a,
+    P2: Parser<'a, R2> + 'a,
+    R1: 'a,
+    R2: 'a,
 {
-    super::map(super::pair(parser_1, parser_2), |(_left, right)| right)
+    super::pair(parser_1, parser_2).map(|(_left, right)| right)
 }
 
 #[cfg(test)]

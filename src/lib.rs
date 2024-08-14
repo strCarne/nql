@@ -8,6 +8,16 @@ type ParsingResult<'a, Output> = Result<(NextInput<'a>, Output), Input<'a>>;
 
 pub trait Parser<'a, Output> {
     fn parse(&self, input: &'a str) -> ParsingResult<'a, Output>;
+
+    fn map<F, NewOutput>(self, map_fn: F) -> impl Parser<'a, NewOutput>
+    where
+        Self: Sized + 'a,
+        Output: 'a,
+        NewOutput: 'a,
+        F: Fn(Output) -> NewOutput + 'a,
+    {
+        combinators::map(self, map_fn)
+    }
 }
 
 impl<'a, Output, F> Parser<'a, Output> for F

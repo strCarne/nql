@@ -5,10 +5,10 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     if let Ok(_) = combinators::single_of(vec![
         BoxedParser::new(primitives::literal("'")),
         BoxedParser::new(primitives::literal("\"")),
-        BoxedParser::new(combinators::map(
-            combinators::pred(primitives::any, |c| c.is_whitespace()),
-            |_| (),
-        )),
+        BoxedParser::new(
+            combinators::pred(primitives::any, |c| c.is_whitespace())
+                .map(|_| ())
+        )
     ])
     .parse(input)
     {
