@@ -26,8 +26,44 @@ where
 #[cfg(test)]
 mod tests {
 
+    use crate::{combinators, primitives};
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
     fn one_or_more_combinator() {
-        todo!("Make unit test for combinators::one_or_more")
+        let input_data = vec!["a milli a milli a milli", " \n\t cringe", "space"].into_iter();
+
+        let parsers: Vec<Box<dyn Parser<Vec<()>>>> = vec![
+            Box::new(one_or_more(primitives::literal("a milli "))),
+            Box::new(one_or_more(combinators::map(
+                combinators::pred(primitives::any, |c| c.is_whitespace()),
+                |_| (),
+            ))),
+            Box::new(one_or_more(primitives::literal(" "))),
+        ];
+        let parsers = parsers.into_iter();
+
+        let expected_results = vec![
+            Ok(("a milli", vec![(), ()])),
+            Ok(("cringe", vec![(), (), (), ()])),
+            Err("space"),
+        ]
+        .into_iter();
+
+        assert!(
+            input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results or parsers [correct the source data]"
+        );
+
+        let dataset = input_data
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
+
+        for (input, parser, expected) in dataset {
+            assert_eq!(expected, parser.parse(input));
+        }
     }
 }
