@@ -26,7 +26,7 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
         input = next_input;
     }
 
-    Ok((input, matched))
+    if matched.is_empty() { Err("") } else { Ok((input, matched)) }
 }
 
 #[cfg(test)]
