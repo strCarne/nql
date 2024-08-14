@@ -1,15 +1,9 @@
 use crate::{combinators, primitives, BoxedParser, Parser, ParsingResult};
 
 pub fn boolean(input: &str) -> ParsingResult<bool> {
-    let true_parser = combinators::single_of(vec![
-        BoxedParser::new(primitives::iliteral("true")),
-        BoxedParser::new(primitives::literal("1")),
-    ]);
+    let true_parser = primitives::iliteral("true");
 
-    let false_parser = combinators::single_of(vec![
-        BoxedParser::new(primitives::iliteral("false")),
-        BoxedParser::new(primitives::literal("0")),
-    ]);
+    let false_parser = primitives::iliteral("false");
 
     match true_parser.parse(input) {
         Ok((next_input, _)) => Ok((next_input, true)),
@@ -32,8 +26,6 @@ mod tests {
             "true",
             "False",
             "fAlse",
-            "0 ",
-            " 1",
             "tru false",
             " falsE",
             "truefalse",
@@ -44,13 +36,17 @@ mod tests {
             Ok(("", true)),
             Ok(("", false)),
             Ok(("", false)),
-            Ok((" ", false)),
-            Err(" 1"),
             Err("tru false"),
             Err(" falsE"),
             Ok(("false", true)),
         ]
         .into_iter();
+
+        assert_eq!(
+            input_data.len(), 
+            expected_results.len(), 
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
 
         for (input, expected) in input_data.zip(expected_results) {
             let result = boolean(input);
