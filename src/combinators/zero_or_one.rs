@@ -13,8 +13,23 @@ where
 #[cfg(test)]
 mod tests {
 
+    use crate::primitives::literal;
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
     fn zero_or_one_combinator() {
-        todo!("Make unit test for combinators::zero_or_one")
+        let input_data = vec!["space", " "].into_iter();
+
+        let parser = zero_or_one(literal(" "));
+
+        let expected_results: Vec<Result<(&str, Option<()>), &str>> =
+            vec![Ok(("space", None)), Ok(("", Some(())))];
+        let expected_results = expected_results.into_iter();
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(expected, parser.parse(input));
+        }
     }
 }
