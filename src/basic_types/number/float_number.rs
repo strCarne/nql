@@ -2,6 +2,7 @@ use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
+#[allow(unused)]
 pub fn float_number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 

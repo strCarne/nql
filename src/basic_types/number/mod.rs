@@ -1,8 +1,15 @@
+#![allow(unused_imports)]
+
 use std::fmt::Display;
 
-pub mod float_number;
-pub mod int_number;
-pub mod number;
+mod float_number;
+pub use float_number::float_number;
+
+mod int_number;
+pub use int_number::int_number;
+
+mod number;
+pub use number::number;
 
 #[derive(Debug, PartialEq)]
 pub enum Number {
