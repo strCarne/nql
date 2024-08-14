@@ -41,7 +41,8 @@ mod tests {
             "doha",
             "zho-zho",
             "Joe, what's up?",
-        ];
+        ]
+        .into_iter();
 
         let parsers = vec![
             (literal(" "), literal("mama")),
@@ -50,7 +51,8 @@ mod tests {
             (literal("do"), literal("ho")),
             (literal("zh"), literal("o-")),
             (literal("Joe"), literal(", ")),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Ok(("", ())),
@@ -59,7 +61,8 @@ mod tests {
             Err("ha"),
             Ok(("zho", ())),
             Ok(("what's up?", ())),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -67,36 +70,38 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let left_value_parser = left(parser.0, parser.1);
 
             let result = left_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 
     #[test]
     fn left_combinator_literal_number() {
-        let input_data = vec![" 123.41", "literal6969.", "aboba1.1gang", "fail123"];
+        let input_data = vec![" 123.41", "literal6969.", "aboba1.1gang", "fail123"].into_iter();
 
         let parsers = vec![
             (literal(" "), basic_types::number),
             (literal("literal"), basic_types::number),
             (literal("aboba"), basic_types::number),
             (literal("success"), basic_types::number),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Ok(("", ())),
             Ok((".", ())),
             Ok(("gang", ())),
             Err("fail123"),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -104,16 +109,16 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let left_value_parser = left(parser.0, parser.1);
 
             let result = left_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 
@@ -124,21 +129,24 @@ mod tests {
             "69.point",
             " 123 hehe, whitespace at the start",
             "2452.145, buga-buga-doo",
-        ];
+        ]
+        .into_iter();
 
         let parsers = vec![
             (basic_types::number, literal("skittle")),
             (basic_types::number, literal(".")),
             (basic_types::number, literal(" ")),
             (basic_types::number, literal(", ")),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Err(" skittle"),
             Ok(("point", Number::Integer(69))),
             Err(" 123 hehe, whitespace at the start"),
             Ok(("buga-buga-doo", Number::Float(2452.145))),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -146,16 +154,16 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let left_value_parser = left(parser.0, parser.1);
 
             let result = left_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 
@@ -168,7 +176,8 @@ mod tests {
             "doha",
             "zho-zho",
             "Joe, what's up?",
-        ];
+        ]
+        .into_iter();
 
         let parsers = vec![
             (literal(" "), literal("mama")),
@@ -177,7 +186,8 @@ mod tests {
             (literal("do"), literal("ho")),
             (literal("zh"), literal("o-")),
             (literal("Joe"), literal(", ")),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Ok(("", ())),
@@ -186,7 +196,8 @@ mod tests {
             Err("ha"),
             Ok(("zho", ())),
             Ok(("what's up?", ())),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -194,36 +205,38 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let right_value_parser = right(parser.0, parser.1);
 
             let result = right_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 
     #[test]
     fn right_combinator_literal_number() {
-        let input_data = vec![" 123.41", "literal6969.", "aboba1.1gang", "fail123"];
+        let input_data = vec![" 123.41", "literal6969.", "aboba1.1gang", "fail123"].into_iter();
 
         let parsers = vec![
             (literal(" "), basic_types::number),
             (literal("literal"), basic_types::number),
             (literal("aboba"), basic_types::number),
             (literal("success"), basic_types::number),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Ok(("", Number::Float(123.41))),
             Ok((".", Number::Integer(6969))),
             Ok(("gang", Number::Float(1.1))),
             Err("fail123"),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -231,16 +244,16 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let right_value_parser = right(parser.0, parser.1);
 
             let result = right_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 
@@ -251,21 +264,24 @@ mod tests {
             "69.point",
             " 123 hehe, whitespace at the start",
             "2452.145, buga-buga-doo",
-        ];
+        ]
+        .into_iter();
 
         let parsers = vec![
             (basic_types::number, literal("skittle")),
             (basic_types::number, literal(".")),
             (basic_types::number, literal(" ")),
             (basic_types::number, literal(", ")),
-        ];
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Err(" skittle"),
             Ok(("point", ())),
             Err(" 123 hehe, whitespace at the start"),
             Ok(("buga-buga-doo", ())),
-        ];
+        ]
+        .into_iter();
 
         assert!(
             input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
@@ -273,16 +289,16 @@ mod tests {
         );
 
         let dataset = input_data
-            .into_iter()
-            .zip(parsers.into_iter())
-            .zip(expected_results.into_iter());
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
 
-        for ((input, parser), expected) in dataset {
+        for (input, parser, expected) in dataset {
             let right_value_parser = right(parser.0, parser.1);
 
             let result = right_value_parser.parse(input);
 
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 }

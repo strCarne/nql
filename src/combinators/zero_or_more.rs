@@ -59,7 +59,7 @@ mod tests {
             .map(|((input, parser), expected)| (input, parser, expected));
 
         for (input, parser, expected) in dataset {
-            assert_eq!(expected, parser.parse(input));
+            assert_eq!(parser.parse(input), expected);
         }
     }
 }

@@ -89,7 +89,7 @@ mod tests {
 
     #[test]
     fn float_number_parsing() {
-        let input = vec![
+        let input_data = vec![
             "123",
             "531 ",
             " 124",
@@ -101,9 +101,9 @@ mod tests {
             "-1124",
             "-12451.",
             "-124.14",
-        ];
+        ].into_iter();
 
-        let expected = vec![
+        let expected_results = vec![
             Err(""),
             Err(" "),
             Err(" 124"),
@@ -115,18 +115,16 @@ mod tests {
             Err(""),
             Err("."),
             Ok(("", Number::Float(-124.14))),
-        ];
+        ].into_iter();
 
         assert_eq!(
-            input.len(),
-            expected.len(),
+            input_data.len(),
+            expected_results.len(),
             "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
         );
 
-        let source_data = input.iter().zip(expected.iter());
-        for (input, expected) in source_data {
-            let got = float_number(&input);
-            assert_eq!(*expected, got);
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(float_number(input), expected);
         }
     }
 }

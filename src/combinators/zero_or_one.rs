@@ -29,7 +29,7 @@ mod tests {
         let expected_results = expected_results.into_iter();
 
         for (input, expected) in input_data.zip(expected_results) {
-            assert_eq!(expected, parser.parse(input));
+            assert_eq!(parser.parse(input), expected);
         }
     }
 }

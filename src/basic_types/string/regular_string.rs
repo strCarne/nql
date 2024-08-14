@@ -64,7 +64,7 @@ mod tests {
         );
 
         for (input, expected) in input_data.zip(expected_results) {
-            assert_eq!(expected, regular_string(input));
+            assert_eq!(regular_string(input), expected);
         }
     }
 }

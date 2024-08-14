@@ -50,7 +50,7 @@ mod tests {
 
         for (input, expected) in input_data.zip(expected_results) {
             let result = boolean(input);
-            assert_eq!(expected, result);
+            assert_eq!(result, expected);
         }
     }
 }

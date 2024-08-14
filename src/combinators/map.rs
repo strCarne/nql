@@ -18,6 +18,7 @@ mod tests {
     use crate::basic_types::{self, Number};
 
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn map_combinator() {
@@ -63,8 +64,7 @@ mod tests {
         );
 
         for (input, expected) in input.zip(expected) {
-            let got = number_parser_as_string.parse(input);
-            assert_eq!(expected, got);
+            assert_eq!(number_parser_as_string.parse(input), expected);
         }
     }
 }
