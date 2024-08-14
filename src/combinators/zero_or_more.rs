@@ -19,7 +19,7 @@ where
 #[cfg(test)]
 mod tests {
 
-    use crate::{combinators, primitives};
+    use crate::primitives;
 
     use super::*;
     use pretty_assertions::assert_eq;
@@ -35,7 +35,7 @@ mod tests {
         let parsers: Vec<Box<dyn Parser<Vec<()>>>> = vec![
             Box::new(zero_or_more(primitives::literal("a milli "))),
             Box::new(zero_or_more(
-                combinators::pred(primitives::any, |c| c.is_whitespace()).map(|_| ()),
+                primitives::any.pred(|c| c.is_whitespace()).map(|_| ()),
             )),
             Box::new(zero_or_more(primitives::literal(" "))),
         ];

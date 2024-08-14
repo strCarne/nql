@@ -14,7 +14,7 @@ pub fn quoted_string<'a>(quote_type: QuoteType) -> impl Parser<'a, String> {
     combinators::right(
         primitives::character(quote),
         combinators::left(
-            combinators::zero_or_more(combinators::pred(primitives::any, move |c| *c != quote)),
+            combinators::zero_or_more(primitives::any.pred(move |c| *c != quote)),
             primitives::character(quote),
         ),
     )

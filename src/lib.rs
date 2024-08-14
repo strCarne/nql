@@ -18,6 +18,15 @@ pub trait Parser<'a, Output> {
     {
         combinators::map(self, map_fn)
     }
+
+    fn pred<F>(self, pred_fn: F) -> impl Parser<'a, Output>
+    where
+        Self: Sized + 'a,
+        Output: 'a,
+        F: Fn(&Output) -> bool + 'a,
+    {
+        combinators::pred(self, pred_fn)
+    }
 }
 
 impl<'a, Output, F> Parser<'a, Output> for F

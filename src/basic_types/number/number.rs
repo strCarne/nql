@@ -17,8 +17,8 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
         _ => (),
     }
 
-    let digit = combinators::pred(primitives::any, |c| c.is_ascii_digit());
-    
+    let digit = primitives::any.pred(|c| c.is_ascii_digit());
+
     // 2. Reading first digit.
     match digit.parse(&input) {
         Ok((next_seq, digit)) => {
@@ -28,7 +28,7 @@ pub fn number(mut input: &str) -> ParsingResult<Number> {
         _ => return Err(input),
     }
 
-    let point = combinators::pred(primitives::any, |c| *c == '.');
+    let point = primitives::any.pred(|c| *c == '.');
 
     // 3. Reading int number.
     loop {

@@ -17,7 +17,7 @@ pub fn int_number(mut input: &str) -> ParsingResult<Number> {
         _ => (),
     }
 
-    let digit = combinators::pred(primitives::any, |c| c.is_ascii_digit());
+    let digit = primitives::any.pred(|c| c.is_ascii_digit());
 
     // 2. Reading first digit.
     match digit.parse(&input) {

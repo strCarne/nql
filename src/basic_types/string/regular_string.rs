@@ -6,7 +6,8 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
         BoxedParser::new(primitives::literal("'")),
         BoxedParser::new(primitives::literal("\"")),
         BoxedParser::new(
-            combinators::pred(primitives::any, |c| c.is_whitespace())
+            primitives::any
+                .pred(|c| c.is_whitespace())
                 .map(|_| ())
         )
     ])
@@ -17,7 +18,7 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
 
     let mut matched = String::new();
 
-    let non_whitespace_symbols = combinators::pred(primitives::any, |c| !c.is_whitespace());
+    let non_whitespace_symbols = primitives::any.pred(|c| !c.is_whitespace());
 
     // 2. Parse all non whitespace symbols
     while let Ok((next_input, output)) = non_whitespace_symbols.parse(input) {
