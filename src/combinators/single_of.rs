@@ -1,8 +1,6 @@
-use crate::Parser;
+use crate::{BoxedParser, Parser};
 
-pub fn single_of<'a, Output>(
-    parsers: Vec<Box<dyn Parser<'a, Output> + 'a>>,
-) -> impl Parser<'a, Output> {
+pub fn single_of<'a, Output>(parsers: Vec<BoxedParser<'a, Output>>) -> impl Parser<'a, Output> {
     move |input| {
         for parser in &parsers {
             if let Ok(success) = parser.parse(input) {
@@ -27,19 +25,19 @@ mod tests {
 
         let parsers = vec![
             single_of(vec![
-                Box::new(primitives::literal("a")),
-                Box::new(primitives::literal("b")),
-                Box::new(primitives::literal(" ")),
+                BoxedParser::new(primitives::literal("a")),
+                BoxedParser::new(primitives::literal("b")),
+                BoxedParser::new(primitives::literal(" ")),
             ]),
             single_of(vec![
-                Box::new(primitives::literal("or")),
-                Box::new(primitives::literal("wo")),
-                Box::new(primitives::literal("rd")),
+                BoxedParser::new(primitives::literal("or")),
+                BoxedParser::new(primitives::literal("wo")),
+                BoxedParser::new(primitives::literal("rd")),
             ]),
             single_of(vec![
-                Box::new(primitives::literal("i")),
-                Box::new(primitives::literal("i")),
-                Box::new(primitives::literal("l")),
+                BoxedParser::new(primitives::literal("i")),
+                BoxedParser::new(primitives::literal("i")),
+                BoxedParser::new(primitives::literal("l")),
             ]),
         ]
         .into_iter();

@@ -1,11 +1,11 @@
-use crate::{combinators, primitives, Parser, ParsingResult};
+use crate::{combinators, primitives, BoxedParser, Parser, ParsingResult};
 
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![
-        Box::new(primitives::literal("'")),
-        Box::new(primitives::literal("\"")),
-        Box::new(combinators::map(
+        BoxedParser::new(primitives::literal("'")),
+        BoxedParser::new(primitives::literal("\"")),
+        BoxedParser::new(combinators::map(
             combinators::pred(primitives::any, |c| c.is_whitespace()),
             |_| (),
         )),

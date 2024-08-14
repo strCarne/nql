@@ -1,14 +1,14 @@
-use crate::{combinators, primitives, Parser, ParsingResult};
+use crate::{combinators, primitives, BoxedParser, Parser, ParsingResult};
 
 pub fn boolean(input: &str) -> ParsingResult<bool> {
     let true_parser = combinators::single_of(vec![
-        Box::new(primitives::iliteral("true")),
-        Box::new(primitives::literal("1")),
+        BoxedParser::new(primitives::iliteral("true")),
+        BoxedParser::new(primitives::literal("1")),
     ]);
 
     let false_parser = combinators::single_of(vec![
-        Box::new(primitives::iliteral("false")),
-        Box::new(primitives::literal("0")),
+        BoxedParser::new(primitives::iliteral("false")),
+        BoxedParser::new(primitives::literal("0")),
     ]);
 
     match true_parser.parse(input) {
