@@ -1,4 +1,4 @@
-use crate::{combinators, primitives, BoxedParser, Parser, ParsingResult};
+use crate::{primitives, Parser, ParsingResult};
 
 pub fn boolean(input: &str) -> ParsingResult<bool> {
     let true_parser = primitives::iliteral("true");
