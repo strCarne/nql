@@ -75,6 +75,8 @@ mod tests {
             r#""'yea, this is possible too'""#,
             r#"'this is single quoted string, not acceptable'"#,
             r#""did not close the quote"#,
+
+            "",
         ]
         .into_iter();
 
@@ -87,6 +89,8 @@ mod tests {
             Ok((" next tokens", String::from("a   lot   of   spaces   here"))),
             Ok(("", String::from("'yea, this is possible too'"))),
             Err("'this is single quoted string, not acceptable'"),
+            Err(""),
+
             Err(""),
         ]
         .into_iter();

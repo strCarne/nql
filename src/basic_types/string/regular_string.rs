@@ -44,6 +44,8 @@ mod tests {
             "'yep, parser will think, that is a single-quoted string",
             "\"yep, parser will think, that is a double-quoted string",
             "that's\"nice next input tokens",
+
+            "",
         ]
         .into_iter();
 
@@ -54,6 +56,8 @@ mod tests {
             Err("'yep, parser will think, that is a single-quoted string"),
             Err("\"yep, parser will think, that is a double-quoted string"),
             Ok((" next input tokens", String::from("that's\"nice"))),
+
+            Err(""),
         ]
         .into_iter();
 

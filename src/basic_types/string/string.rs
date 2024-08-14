@@ -41,6 +41,8 @@ mod tests {
             r#""'yea, this is possible too'""#,
             r#"'this is single quoted string, acceptable'"#,
             r#""did not close the quote"#,
+
+            "",
         ]
         .into_iter();
 
@@ -67,6 +69,8 @@ mod tests {
             Ok(("", String::from("'yea, this is possible too'"))),
             Ok(("", String::from("this is single quoted string, acceptable"))),
             Err(r#""did not close the quote"#),
+
+            Err(""),
         ]
         .into_iter();
 
