@@ -16,10 +16,3 @@ pub fn iliteral<'a>(expected: &'static str) -> impl Parser<'a, ()> {
         _ => Err(input),
     }
 }
-
-pub fn char_literal<'a>(expected: char) -> impl Parser<'a, ()> {
-    move |input: &'a str| match input.chars().next() {
-        Some(c) if c == expected => Ok((&input[expected.len_utf8()..], ())),
-        _ => Err(input),
-    }
-}
