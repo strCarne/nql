@@ -31,8 +31,39 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
 #[cfg(test)]
 mod tests {
 
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
     fn regular_string_test() {
-        todo!("Make unit test for basic_types::string::regular_string")
+        let input_data = vec![
+            "haha, ",
+            "rizz\n",
+            " oh, error here because of a whitespace",
+            "'yep, parser will think, that is a single-quoted string",
+            "\"yep, parser will think, that is a double-quoted string",
+            "that's\"nice next input tokens",
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            Ok((" ", String::from("haha,"))),
+            Ok(("\n", String::from("rizz"))),
+            Err(" oh, error here because of a whitespace"),
+            Err("'yep, parser will think, that is a single-quoted string"),
+            Err("\"yep, parser will think, that is a double-quoted string"),
+            Ok((" next input tokens", String::from("that's\"nice"))),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(), 
+            expected_results.len(), 
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(expected, regular_string(input));
+        }
     }
 }
