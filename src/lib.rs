@@ -35,6 +35,16 @@ pub trait Parser<'a, Output> {
     {
         BoxedParser::new(self)
     }
+
+    fn and_then<F, NewOutput>(self, f: F) -> impl Parser<'a, NewOutput>
+    where
+        Self: Sized + 'a,
+        Output: 'a,
+        NewOutput: 'a,
+        F: Fn(Output) -> NewOutput + 'a,
+    {
+        combinators::and_then(self, f)
+    }
 }
 
 impl<'a, Output, F> Parser<'a, Output> for F

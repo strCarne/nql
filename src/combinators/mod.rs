@@ -24,3 +24,6 @@ pub use pred::pred;
 
 mod either;
 pub use either::either;
+
+mod and_then;
+pub use and_then::and_then;
