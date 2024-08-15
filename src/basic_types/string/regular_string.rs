@@ -1,15 +1,14 @@
-use crate::{combinators, primitives, BoxedParser, Parser, ParsingResult};
+use crate::{combinators, primitives, Parser, ParsingResult};
 
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![
-        BoxedParser::new(primitives::literal("'")),
-        BoxedParser::new(primitives::literal("\"")),
-        BoxedParser::new(
-            primitives::any
-                .pred(|c| c.is_whitespace())
-                .map(|_| ())
-        )
+        primitives::literal("'").into_box(),
+        primitives::literal("\"").into_box(),
+        primitives::any
+            .pred(|c| c.is_whitespace())
+            .map(|_| ())
+            .into_box(),
     ])
     .parse(input)
     {
@@ -26,7 +25,11 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
         input = next_input;
     }
 
-    if matched.is_empty() { Err("") } else { Ok((input, matched)) }
+    if matched.is_empty() {
+        Err("")
+    } else {
+        Ok((input, matched))
+    }
 }
 
 #[cfg(test)]
@@ -44,7 +47,6 @@ mod tests {
             "'yep, parser will think, that is a single-quoted string",
             "\"yep, parser will think, that is a double-quoted string",
             "that's\"nice next input tokens",
-
             "",
         ]
         .into_iter();
@@ -56,7 +58,6 @@ mod tests {
             Err("'yep, parser will think, that is a single-quoted string"),
             Err("\"yep, parser will think, that is a double-quoted string"),
             Ok((" next input tokens", String::from("that's\"nice"))),
-
             Err(""),
         ]
         .into_iter();

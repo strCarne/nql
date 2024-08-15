@@ -1,6 +1,6 @@
 use crate::{
     basic_types::{self, Number},
-    combinators, BoxedParser, Parser,
+    combinators, Parser
 };
 
 #[derive(Debug, PartialEq)]
@@ -12,9 +12,9 @@ pub enum OrdinaryValue {
 
 pub fn ordinary_value<'a>() -> impl Parser<'a, OrdinaryValue> {
     combinators::single_of(vec![
-        BoxedParser::new(basic_types::boolean.map(|output| OrdinaryValue::Boolean(output))),
-        BoxedParser::new(basic_types::number.map(|output| OrdinaryValue::Number(output))),
-        BoxedParser::new(basic_types::string.map(|output| OrdinaryValue::String(output))),
+        basic_types::boolean.map(|output| OrdinaryValue::Boolean(output)).into_box(),
+        basic_types::number.map(|output| OrdinaryValue::Number(output)).into_box(),
+        basic_types::string.map(|output| OrdinaryValue::String(output)).into_box(),
     ])
 }
 

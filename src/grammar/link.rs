@@ -1,4 +1,4 @@
-use crate::{combinators, primitives, BoxedParser, Parser};
+use crate::{combinators, primitives, Parser};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Link {
@@ -9,9 +9,9 @@ pub enum Link {
 
 pub fn link<'a>() -> impl Parser<'a, Link> {
     combinators::single_of(vec![
-        BoxedParser::new(primitives::character('&').map(|_| Link::And)),
-        BoxedParser::new(primitives::character('|').map(|_| Link::Or)),
-        BoxedParser::new(primitives::character('^').map(|_| Link::Xor)),
+        primitives::character('&').map(|_| Link::And).into_box(),
+        primitives::character('|').map(|_| Link::Or).into_box(),
+        primitives::character('^').map(|_| Link::Xor).into_box(),
     ])
 }
 

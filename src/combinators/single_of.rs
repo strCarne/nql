@@ -25,19 +25,19 @@ mod tests {
 
         let parsers = vec![
             single_of(vec![
-                BoxedParser::new(primitives::literal("a")),
-                BoxedParser::new(primitives::literal("b")),
-                BoxedParser::new(primitives::literal(" ")),
+                primitives::literal("a").into_box(),
+                primitives::literal("b").into_box(),
+                primitives::literal(" ").into_box(),
             ]),
             single_of(vec![
-                BoxedParser::new(primitives::literal("or")),
-                BoxedParser::new(primitives::literal("wo")),
-                BoxedParser::new(primitives::literal("rd")),
+                primitives::literal("or").into_box(),
+                primitives::literal("wo").into_box(),
+                primitives::literal("rd").into_box(),
             ]),
             single_of(vec![
-                BoxedParser::new(primitives::literal("i")),
-                BoxedParser::new(primitives::literal("i")),
-                BoxedParser::new(primitives::literal("l")),
+                primitives::literal("i").into_box(),
+                primitives::literal("i").into_box(),
+                primitives::literal("l").into_box(),
             ]),
         ]
         .into_iter();

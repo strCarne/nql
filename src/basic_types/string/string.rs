@@ -1,11 +1,11 @@
 use super::*;
-use crate::{combinators, BoxedParser, Parser, ParsingResult};
+use crate::{combinators, Parser, ParsingResult};
 
 pub fn string(input: &str) -> ParsingResult<String> {
     combinators::single_of(vec![
-        BoxedParser::new(regular_string),
-        BoxedParser::new(quoted_string(QuoteType::Single)),
-        BoxedParser::new(quoted_string(QuoteType::Double)),
+        regular_string.into_box(),
+        quoted_string(QuoteType::Single).into_box(),
+        quoted_string(QuoteType::Double).into_box(),
     ])
     .parse(input)
 }
