@@ -16,11 +16,9 @@ where
 #[cfg(test)]
 mod tests {
 
-    use super::*;
-    use pretty_assertions::assert_eq;
-
     #[test]
+    #[ignore = "Not implemented yet"]
     fn test_and_then() {
-        todo!("Make unit test");
+        todo!("Make unit test")
     }
 }
