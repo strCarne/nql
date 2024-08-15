@@ -28,6 +28,13 @@ pub trait Parser<'a, Output> {
     {
         combinators::pred(self, pred_fn)
     }
+
+    fn into_box(self) -> BoxedParser<'a, Output>
+    where
+        Self: Sized + 'a,
+    {
+        BoxedParser::new(self)
+    }
 }
 
 impl<'a, Output, F> Parser<'a, Output> for F
