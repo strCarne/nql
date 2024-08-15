@@ -21,3 +21,6 @@ pub use zero_or_one::zero_or_one;
 
 mod pred;
 pub use pred::pred;
+
+mod either;
+pub use either::either;
