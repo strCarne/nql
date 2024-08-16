@@ -19,7 +19,12 @@ impl Date {
     }
 }
 
-// DATE ::= DD:MM:YYYY
+// DATE ::= DAY:MONTH:YEAR
+// DAY ::= INT_NUMBER
+// 1 <= DAY <= MAX_DAYS_IN(MONTH, YEAR)
+// MONTH ::= INT_NUMBER
+// 1 <= MONTH <= 12
+// YEAR ::= INT_NUMBER
 pub fn date(input: &str) -> ParsingResult<Date> {
 
     // TODO [refactor]: Don't really like how it came out in the code
