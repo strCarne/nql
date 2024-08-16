@@ -1,5 +1,6 @@
 use crate::{primitives, Parser, ParsingResult};
 
+// BOOLEAN ::= true | false
 pub fn boolean(input: &str) -> ParsingResult<bool> {
     let true_parser = primitives::iliteral("true");
 
