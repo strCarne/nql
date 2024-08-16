@@ -4,6 +4,7 @@ use super::Number;
 
 // FLOAT_NUMBER ::= -? DIGIT+ (\. DIGIT+)?
 // DIGIT >> see grammar::basic_types::number::int_number.rs
+#[allow(unused)]
 pub fn float_number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 
@@ -102,7 +103,8 @@ mod tests {
             "-1124",
             "-12451.",
             "-124.14",
-        ].into_iter();
+        ]
+        .into_iter();
 
         let expected_results = vec![
             Err(""),
@@ -116,7 +118,8 @@ mod tests {
             Err(""),
             Err("."),
             Ok(("", Number::Float(-124.14))),
-        ].into_iter();
+        ]
+        .into_iter();
 
         assert_eq!(
             input_data.len(),

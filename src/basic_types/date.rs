@@ -1,5 +1,5 @@
 use crate::{
-    combinators::{exact, left},
+    combinators::exact,
     primitives::character,
     Parser, ParsingResult,
 };

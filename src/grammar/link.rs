@@ -1,4 +1,4 @@
-use crate::{combinators, primitives, Parser};
+use crate::{combinators, primitives, Parser, ParsingResult};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Link {
@@ -7,12 +7,12 @@ pub enum Link {
     Xor,
 }
 
-pub fn link<'a>() -> impl Parser<'a, Link> {
+pub fn link(input: &str) -> ParsingResult<Link> {
     combinators::single_of(vec![
         primitives::character('&').map(|_| Link::And).into_box(),
         primitives::character('|').map(|_| Link::Or).into_box(),
         primitives::character('^').map(|_| Link::Xor).into_box(),
-    ])
+    ]).parse(input)
 }
 
 #[cfg(test)]
@@ -24,8 +24,6 @@ mod tests {
     #[test]
     fn link_test() {
         let input_data = vec![" &", "&", "val | val", "| val", "#", "^ xorik"].into_iter();
-
-        let parser = link();
 
         let expected_results = vec![
             Err(" &"),
@@ -44,7 +42,7 @@ mod tests {
         );
 
         for (input, expected) in input_data.zip(expected_results) {
-            assert_eq!(parser.parse(input), expected);
+            assert_eq!(link(input), expected);
         }
     }
 }

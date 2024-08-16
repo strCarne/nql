@@ -9,4 +9,4 @@ mod string;
 pub use string::string;
 
 mod date;
-// pub use date::date;
+pub use date::{date, Date};

@@ -1,6 +1,6 @@
 use crate::{
     basic_types::{self, Number},
-    combinators, Parser
+    combinators, Parser, ParsingResult
 };
 
 #[derive(Debug, PartialEq)]
@@ -10,12 +10,12 @@ pub enum OrdinaryValue {
     String(String),
 }
 
-pub fn ordinary_value<'a>() -> impl Parser<'a, OrdinaryValue> {
+pub fn ordinary_value(input: &str) -> ParsingResult<OrdinaryValue> {
     combinators::single_of(vec![
         basic_types::boolean.map(|output| OrdinaryValue::Boolean(output)).into_box(),
         basic_types::number.map(|output| OrdinaryValue::Number(output)).into_box(),
         basic_types::string.map(|output| OrdinaryValue::String(output)).into_box(),
-    ])
+    ]).parse(input)
 }
 
 #[cfg(test)]
@@ -38,8 +38,6 @@ mod tests {
             "",
         ].into_iter();
 
-        let parser = ordinary_value();
-
         let expected_results = vec![
             Ok((", but not for everyone", OrdinaryValue::Boolean(true))),
             Ok((" string", OrdinaryValue::String(String::from("cringe")))),
@@ -59,7 +57,7 @@ mod tests {
         );
 
         for (input, expected) in input_data.zip(expected_results) {
-            assert_eq!(parser.parse(input), expected);
+            assert_eq!(ordinary_value(input), expected);
         }
     }
 }
