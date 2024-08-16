@@ -2,7 +2,10 @@ use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
-// number can be float_number or int_number, depending on the input
+// NUMBER ::= INT_NUMBER | FLOAT_NUMBER
+//
+// INT_NUMBER >> see grammar::basic_types::number::int_number.rs
+// FLOAT_NUMBER >> see grammar::basic_types::number::float_number.rs
 pub fn number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 

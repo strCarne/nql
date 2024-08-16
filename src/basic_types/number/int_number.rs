@@ -2,7 +2,9 @@ use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
-#[allow(unused)]
+// INT_NUMBER ::= -? DIGIT+
+//
+// DIGIT ::= [0-9]
 pub fn int_number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 

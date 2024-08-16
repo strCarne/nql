@@ -2,7 +2,9 @@ use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::Number;
 
-#[allow(unused)]
+// FLOAT_NUMBER ::= -? DIGIT+ ('.' DIGIT+)?
+//
+// DIGIT >> see grammar::basic_types::number::int_number.rs
 pub fn float_number(mut input: &str) -> ParsingResult<Number> {
     let mut matched = String::new();
 
