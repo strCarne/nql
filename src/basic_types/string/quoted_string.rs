@@ -5,7 +5,12 @@ pub enum QuoteType {
     Double,
 }
 
+// QUOTED_STRING ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING
+// SINGLE_QUOTED_STRING ::= '.*'
+// DOUBLE_QUOTED_STRING ::= ".*"
+//
 // WARNING: character escaping is not supported yet
+// TODO: make support for character escaping
 pub fn quoted_string<'a>(quote_type: QuoteType) -> impl Parser<'a, String> {
     let quote = match quote_type {
         QuoteType::Single => '\'',

@@ -1,5 +1,9 @@
 use crate::{combinators, primitives, Parser, ParsingResult};
 
+// REGULAR_STRING ::= NON_WHITESPACE_SYMBOL+
+// NON_WHITESPACE_SYMBOL ::= ^WHITESPACE
+// WHITESPACE ::= char::is_whitespace()
+// Whitespace - non visible character
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![

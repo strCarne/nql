@@ -1,6 +1,7 @@
 use super::*;
 use crate::{combinators, Parser, ParsingResult};
 
+// STRING ::= [REGULAR_STRING QUOTED_STRING]
 pub fn string(input: &str) -> ParsingResult<String> {
     combinators::single_of(vec![
         regular_string.into_box(),
