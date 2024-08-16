@@ -28,5 +28,5 @@ pub use either::either;
 mod and_then;
 pub use and_then::and_then;
 
-mod whitespace_wrap;
-pub use whitespace_wrap::whitespace_wrap;
+mod wrap;
+pub use wrap::{wrap, wrap_after, wrap_before};
