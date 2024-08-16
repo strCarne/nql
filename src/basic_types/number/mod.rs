@@ -11,7 +11,7 @@ pub use int_number::int_number;
 mod number;
 pub use number::number;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Number {
     Integer(i64),
     Float(f64),
