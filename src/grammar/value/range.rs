@@ -5,11 +5,13 @@ use crate::{
     combinators, primitives, Parser, ParsingResult,
 };
 
+#[derive(Debug)]
 pub struct Range {
     pub bounds: RangeBounds,
     pub op: RangeOp,
 }
 
+#[derive(Debug)]
 pub enum RangeBounds {
     DateRange(Date, Date),
     NumberRange(Number, Number),
@@ -54,7 +56,7 @@ pub fn range(input: &str) -> ParsingResult<Range> {
 // EI := \.=
 // EE := \.\.
 // NOTE: I - inclusion, E - exclusion
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum RangeOp {
     II,
     IE,

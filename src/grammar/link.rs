@@ -1,6 +1,6 @@
 use crate::{combinators, primitives, Parser, ParsingResult};
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Link {
     And,
     Or,
