@@ -8,11 +8,14 @@ pub enum Link {
 }
 
 pub fn link(input: &str) -> ParsingResult<Link> {
-    combinators::single_of(vec![
-        primitives::character('&').map(|_| Link::And).into_box(),
-        primitives::character('|').map(|_| Link::Or).into_box(),
-        primitives::character('^').map(|_| Link::Xor).into_box(),
-    ]).parse(input)
+    let res = combinators::single_of(vec![
+        primitives::character('&').map(|_| Link::And),
+        primitives::character('|').map(|_| Link::Or),
+        primitives::character('^').map(|_| Link::Xor),
+        primitives::any.pred(|c| c.is_whitespace()).map(|_| Link::And),
+    ]).parse(input);
+
+    res
 }
 
 #[cfg(test)]
@@ -23,10 +26,10 @@ mod tests {
 
     #[test]
     fn link_test() {
-        let input_data = vec![" &", "&", "val | val", "| val", "#", "^ xorik"].into_iter();
+        let input_data = vec![" ", "&", "val | val", "| val", "#", "^ xorik"].into_iter();
 
         let expected_results = vec![
-            Err(" &"),
+            Ok(("", Link::And)),
             Ok(("", Link::And)),
             Err("val | val"),
             Ok((" val", Link::Or)),
