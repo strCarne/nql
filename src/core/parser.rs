@@ -1,4 +1,5 @@
 use crate::combinators;
+use crate::primitives;
 use crate::BoxedParser;
 
 type NextInput<'a> = &'a str;
@@ -53,6 +54,16 @@ pub trait Parser<'a, Output> {
         Wrapper: Parser<'a, WrapperOutput> + Clone + 'a,
     {
         combinators::wrap(self, wrapper).into_box()
+    }
+
+    fn whitespace_wrap(self) -> BoxedParser<'a, Output>
+    where
+        Self: Sized + 'a,
+        Output: 'a,
+    {
+        self.wrap(|input| {
+            combinators::zero_or_more(primitives::any.pred(|c| c.is_whitespace())).parse(input)
+        })
     }
 
     fn wrap_before<Wrapper, WrapperOutput>(self, wrapper: Wrapper) -> BoxedParser<'a, Output>
