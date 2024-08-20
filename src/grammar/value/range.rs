@@ -31,20 +31,26 @@ pub enum RangeBounds {
 pub fn range(input: &str) -> ParsingResult<Range> {
     combinators::single_of(vec![
         basic_types::date
-            .and_then(|date_1| range_op.map(move |op| (date_1, op)))
+            .whitespace_wrap()
+            .and_then(|date_1| range_op.whitespace_wrap().map(move |op| (date_1, op)))
             .and_then(|(date_1, op)| {
-                basic_types::date.map(move |date_2| Range {
-                    bounds: RangeBounds::DateRange(date_1, date_2),
-                    op,
-                })
+                basic_types::date
+                    .whitespace_wrap()
+                    .map(move |date_2| Range {
+                        bounds: RangeBounds::DateRange(date_1, date_2),
+                        op,
+                    })
             }),
         basic_types::number
-            .and_then(|number_1| range_op.map(move |op| (number_1, op)))
+            .whitespace_wrap()
+            .and_then(|number_1| range_op.whitespace_wrap().map(move |op| (number_1, op)))
             .and_then(|(number_1, op)| {
-                basic_types::number.map(move |number_2| Range {
-                    bounds: RangeBounds::NumberRange(number_1, number_2),
-                    op,
-                })
+                basic_types::number
+                    .whitespace_wrap()
+                    .map(move |number_2| Range {
+                        bounds: RangeBounds::NumberRange(number_1, number_2),
+                        op,
+                    })
             }),
     ])
     .parse(input)
