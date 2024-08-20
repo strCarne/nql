@@ -1,6 +1,15 @@
-use crate::ParsingResult;
-use super::Collection;
+use crate::{combinators, grammar::value::OrdinaryValue, primitives, Parser, ParsingResult};
 
-pub fn and_coll(input: &str) -> ParsingResult<Collection> {
-    todo!("IMPLEMENT grammar::value::collection::and_coll");
+use super::coll_primitive;
+
+// AND_COLL ::= \{ ORDINARY_VALUE (\, ORDINARY_VALUE)* \}
+pub fn and_coll(input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
+    let open_brace = primitives::character('{');
+    let close_brace = primitives::character('}');
+
+    combinators::right(
+        open_brace,
+        combinators::left(coll_primitive.whitespace_wrap(), close_brace),
+    )
+    .parse(input)
 }

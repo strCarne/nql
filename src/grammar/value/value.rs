@@ -20,9 +20,9 @@ pub fn value(input: &str) -> ParsingResult<Value> {
         range
             .wrap(whitespaces.clone())
             .map(|range| Value::Range(range)),
-        // collection
-        //     .wrap(whitespaces)
-        //     .map(|collection| Value::Collection(collection)),
+        collection
+            .wrap(whitespaces)
+            .map(|collection| Value::Collection(collection)),
         ordinary_value
             .wrap(whitespaces.clone())
             .map(|ordinary| Value::OrdinaryValue(ordinary)),
