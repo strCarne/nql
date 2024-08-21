@@ -1,42 +1,39 @@
-use crate::{combinators, grammar, primitives, Parser, ParsingResult};
+use crate::{
+    combinators,
+    grammar::{self, Link, Statement},
+    primitives, Parser, ParsingResult,
+};
 
-use super::node::Node;
+#[derive(Debug)]
+pub enum Token {
+    Stmt(Statement),
+    Link(Link),
+    OpenBrace,
+    CloseBrace,
+}
 
-pub fn tokenize(mut input: &str) -> ParsingResult<Vec<Node>> {
-    let whitespaces = || {
-        |input| combinators::zero_or_more(primitives::any.pred(|c| c.is_whitespace())).parse(input)
-    };
-
-    let mut nodes = Vec::new();
-
-    if let Ok((next_input, Some(head))) =
-        combinators::zero_or_one(grammar::statement.wrap(whitespaces())).parse(input)
-    {
-        nodes.push(Node::new(head));
-        input = next_input;
-    } else {
-        return Ok((input, nodes));
-    }
-
-    let parser = grammar::link.and_then(|l| {
-        grammar::statement
-            .wrap(|input| {
-                combinators::zero_or_more(primitives::any.pred(|c| c.is_whitespace())).parse(input)
-            })
-            .map(move |stmt| (l, stmt))
-    });
+pub fn tokenize(mut input: &str) -> ParsingResult<Vec<Token>> {
+    let mut tokens = Vec::new();
 
     loop {
-        match parser.parse(input) {
-            Ok((next_input, (link, stmt))) => {
-                nodes.last_mut().unwrap().link_to_next = Some(link);
-                nodes.push(Node::new(stmt));
+        match token(input) {
+            Ok((next_input, token)) => {
+                tokens.push(token);
                 input = next_input;
             }
-            Err(left_input) if !left_input.is_empty() => return Err(left_input),
-            _ => break,
+            Err(err) if err.is_empty() => return Ok((err, tokens)),
+            Err(err) => return Err(err),
         }
     }
+}
 
-    Ok((input, nodes))
+pub fn token(input: &str) -> ParsingResult<Token> {
+    combinators::single_of(vec![
+        grammar::statement.map(|stmt| Token::Stmt(stmt)),
+        grammar::link.map(|link| Token::Link(link)),
+        primitives::character('(').map(|_| Token::OpenBrace),
+        primitives::character(')').map(|_| Token::CloseBrace),
+    ])
+    .whitespace_wrap()
+    .parse(input)
 }
