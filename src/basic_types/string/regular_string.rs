@@ -1,18 +1,17 @@
-use crate::{combinators, primitives, Parser, ParsingResult};
+use crate::{combinators, grammar, primitives, Parser, ParsingResult};
 
-// REGULAR_STRING ::= NON_WHITESPACE_SYMBOL+
-// NON_WHITESPACE_SYMBOL ::= ^WHITESPACE
+// REGULAR_STRING ::= ALLOWED_SYMBOL+
+// ALLOWED_SYMBOL ::= !WHITESPACE | !RESERVED_CHARS
 // WHITESPACE ::= char::is_whitespace()
 // Whitespace - non visible character
+// RESERVED_CHARS see grammar::reserved_chars.rs
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![
-        primitives::literal("'").into_box(),
-        primitives::literal("\"").into_box(),
+        grammar::reserved_chars().map(|_| ()),
         primitives::any
             .pred(|c| c.is_whitespace())
-            .map(|_| ())
-            .into_box(),
+            .map(|_| ()),
     ])
     .parse(input)
     {
@@ -21,12 +20,23 @@ pub fn regular_string(mut input: &str) -> ParsingResult<String> {
 
     let mut matched = String::new();
 
-    let non_whitespace_symbols = primitives::any.pred(|c| !c.is_whitespace());
+    let allowed_symbols = primitives::any
+        .pred(|c| !c.is_whitespace() && !grammar::RESERVED_CHARS.contains(c) || *c == '\\');
 
     // 2. Parse all non whitespace symbols
-    while let Ok((next_input, output)) = non_whitespace_symbols.parse(input) {
-        matched.push(output);
-        input = next_input;
+    while let Ok((next_input, output)) = allowed_symbols.parse(input) {
+        if output == '\\' {
+            match next_input.chars().next() {
+                Some(next_c) => {
+                    matched.push(next_c);
+                    input = &next_input[next_c.len_utf8()..];
+                }
+                None => return Err(input),
+            }
+        } else {
+            matched.push(output);
+            input = next_input;
+        }
     }
 
     if matched.is_empty() {
@@ -50,18 +60,18 @@ mod tests {
             " oh, error here because of a whitespace",
             "'yep, parser will think, that is a single-quoted string",
             "\"yep, parser will think, that is a double-quoted string",
-            "that's\"nice next input tokens",
+            "that\\'s\"nice next input tokens",
             "",
         ]
         .into_iter();
 
         let expected_results = vec![
-            Ok((" ", String::from("haha,"))),
+            Ok((", ", String::from("haha"))),
             Ok(("\n", String::from("rizz"))),
             Err(" oh, error here because of a whitespace"),
             Err("'yep, parser will think, that is a single-quoted string"),
             Err("\"yep, parser will think, that is a double-quoted string"),
-            Ok((" next input tokens", String::from("that's\"nice"))),
+            Ok(("\"nice next input tokens", String::from("that's"))),
             Err(""),
         ]
         .into_iter();

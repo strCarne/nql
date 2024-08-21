@@ -25,7 +25,7 @@ mod tests {
             " oh, error here because of a whitespace",
             "'yep, parser will think, that is a single-quoted string",
             "\"yep, parser will think, that is a double-quoted string",
-            "that's\"nice next input tokens",
+            "that\\'s\"nice next input tokens",
 
             " 'space, so parser didn't even reach string'",
             "'nice'",
@@ -48,12 +48,12 @@ mod tests {
         .into_iter();
 
         let expected_results = vec![
-            Ok((" ", String::from("haha,"))),
+            Ok((", ", String::from("haha"))),
             Ok(("\n", String::from("rizz"))),
             Err(" oh, error here because of a whitespace"),
             Err("'yep, parser will think, that is a single-quoted string"),
             Err("\"yep, parser will think, that is a double-quoted string"),
-            Ok((" next input tokens", String::from("that's\"nice"))),
+            Ok(("\"nice next input tokens", String::from("that's"))),
 
             Err(" 'space, so parser didn't even reach string'"),
             Ok(("", String::from("nice"))),
