@@ -1,11 +1,12 @@
 use crate::{
-    basic_types::{self, Number},
+    basic_types::{self, Date, Number},
     combinators, Parser, ParsingResult
 };
 
 #[derive(Debug, PartialEq)]
 pub enum OrdinaryValue {
     Boolean(bool),
+    Date(Date),
     Number(Number),
     String(String),
 }
@@ -13,6 +14,7 @@ pub enum OrdinaryValue {
 pub fn ordinary_value(input: &str) -> ParsingResult<OrdinaryValue> {
     combinators::single_of(vec![
         basic_types::boolean.map(|output| OrdinaryValue::Boolean(output)).into_box(),
+        basic_types::date.map(|output| OrdinaryValue::Date(output)),
         basic_types::number.map(|output| OrdinaryValue::Number(output)).into_box(),
         basic_types::string.map(|output| OrdinaryValue::String(output)).into_box(),
     ]).parse(input)
