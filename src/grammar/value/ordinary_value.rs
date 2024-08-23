@@ -11,6 +11,17 @@ pub enum OrdinaryValue {
     String(String),
 }
 
+impl ToString for OrdinaryValue {
+    fn to_string(&self) -> String {
+        match self {
+            OrdinaryValue::Boolean(boolean) => boolean.to_string(),
+            OrdinaryValue::Date(date) => date.to_string(),
+            OrdinaryValue::Number(number) => number.to_string(),
+            OrdinaryValue::String(string) => format!("'{}'", string),
+        }
+    }
+}
+
 pub fn ordinary_value(input: &str) -> ParsingResult<OrdinaryValue> {
     combinators::single_of(vec![
         basic_types::boolean.map(|output| OrdinaryValue::Boolean(output)).into_box(),
