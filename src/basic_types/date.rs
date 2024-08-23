@@ -13,6 +13,12 @@ pub struct Date {
     pub day: u8,
 }
 
+impl ToString for Date {
+    fn to_string(&self) -> String {
+        format!("{:04}-{:02}-{:02}", self.year, self.month, self.day)
+    }
+}
+
 impl Date {
     pub fn new(year: i32, month: u8, day: u8) -> Self {
         Date { year, month, day }

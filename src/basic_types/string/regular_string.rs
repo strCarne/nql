@@ -4,7 +4,7 @@ use crate::{combinators, grammar, primitives, Parser, ParsingResult};
 // ALLOWED_SYMBOL ::= !WHITESPACE | !RESERVED_CHARS
 // WHITESPACE ::= char::is_whitespace()
 // Whitespace - non visible character
-// RESERVED_CHARS see grammar::reserved_chars.rs
+// RESERVED_CHARS see grammar::reserved_chars.rse
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![
