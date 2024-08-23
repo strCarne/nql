@@ -111,3 +111,12 @@ pub fn to_lucene(tokens: &Vec<Token>) -> String {
 
     buf
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn to_lucene_test() {
+        todo!("Make unit test")
+    }
+}

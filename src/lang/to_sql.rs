@@ -197,3 +197,12 @@ pub fn to_sql(tokens: &Vec<Token>) -> String {
         }
     )
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn to_sql_test() {
+        todo!("Make unit test")
+    }
+}

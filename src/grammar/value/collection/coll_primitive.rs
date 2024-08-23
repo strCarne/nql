@@ -21,3 +21,12 @@ pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
 
     Ok((input, elems))
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn coll_primitive_test() {
+        todo!("Make unit test")
+    }
+}

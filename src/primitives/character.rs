@@ -6,3 +6,12 @@ pub fn character<'a>(expected: char) -> impl Parser<'a, ()> {
         _ => Err(input),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn character_test() {
+        todo!("Make unit test")
+    }
+}

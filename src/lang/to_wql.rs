@@ -204,3 +204,12 @@ pub fn to_wql(tokens: &Vec<Token>) -> String {
 
     buf
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn to_wql_test() {
+        todo!("Make unit test")
+    }
+}

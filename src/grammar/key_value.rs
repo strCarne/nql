@@ -27,3 +27,12 @@ pub fn key_value(input: &str) -> ParsingResult<KeyValue> {
 
     Ok((input, KeyValue { k, op, v }))
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn key_value_test() {
+        todo!("Make unit test")
+    }
+}

@@ -16,3 +16,18 @@ pub fn iliteral<'a>(expected: &'static str) -> impl Parser<'a, ()> {
         _ => Err(input),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn literal_test() {
+        todo!("Make unit test")
+    }
+
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn iliteral_test() {
+        todo!("Make unit test")
+    }
+}

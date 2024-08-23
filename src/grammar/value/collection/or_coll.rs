@@ -12,3 +12,12 @@ pub fn or_coll(input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
     )
     .parse(input)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn or_coll_test() {
+        todo!("Make unit test")
+    }
+}

@@ -6,3 +6,12 @@ pub fn any(input: &str) -> ParsingResult<char> {
         _ => Err(input),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn any_test() {
+        todo!("Make unit test")
+    }
+}

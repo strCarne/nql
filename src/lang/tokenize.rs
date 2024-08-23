@@ -37,3 +37,18 @@ pub fn token(input: &str) -> ParsingResult<Token> {
     .whitespace_wrap()
     .parse(input)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn tokenize_test() {
+        todo!("Make unit test")
+    }
+
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn token_test() {
+        todo!("Make unit test")
+    }
+}

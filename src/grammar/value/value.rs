@@ -28,4 +28,13 @@ pub fn value(input: &str) -> ParsingResult<Value> {
             .map(|ordinary| Value::OrdinaryValue(ordinary)),
     ])
     .parse(input)
-} 
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn value_test() {
+        todo!("Make unit test")
+    }
+}

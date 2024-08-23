@@ -16,3 +16,12 @@ pub fn statement(input: &str) -> ParsingResult<Statement> {
     ])
     .parse(input)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn statement_test() {
+        todo!("Make unit test")
+    }
+}

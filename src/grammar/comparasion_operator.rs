@@ -22,3 +22,12 @@ pub fn comparasion_operator(input: &str) -> ParsingResult<ComparasionOperator> {
     ])
     .parse(input)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[ignore = "Not implemented yet"]
+    fn comparasion_operator_test() {
+        todo!("Make unit test")
+    }
+}
