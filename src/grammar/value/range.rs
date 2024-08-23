@@ -17,6 +17,20 @@ pub enum RangeBounds {
     NumberRange(Number, Number),
 }
 
+impl RangeBounds {
+    pub fn to_strings(&self) -> (String, String) {
+        match self {
+            RangeBounds::DateRange(date_1, date_2) => (
+                format!("'{}'", date_1.to_string()),
+                format!("'{}'", date_2.to_string()),
+            ),
+            RangeBounds::NumberRange(number_1, number_2) => {
+                (number_1.to_string(), number_2.to_string())
+            }
+        }
+    }
+}
+
 // Last example fails, because it will be recognized as a number at first, so number
 // will return '-01-01' as the next input tokens. That will be an error for range
 // parser, because it will expect an token of type 'range_op'
