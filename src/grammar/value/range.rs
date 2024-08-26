@@ -36,8 +36,8 @@ impl RangeBounds {
 // parser, because it will expect an token of type 'range_op'
 //
 // RANGE ::= DATE_RANGE | NUMBER_RANGE
-// DATE_RANGE ::= \(DATE RANGE_OP DATE\)
-// NUMBER_RANGE ::= \(NUMBER RANGE_OP NUMBER\)
+// DATE_RANGE ::= DATE RANGE_OP DATE
+// NUMBER_RANGE ::= NUMBER RANGE_OP NUMBER
 //
 // RANGE_OP >> see grammar::value::range::range_op.rs
 // NUMBER >> see grammar::basic_types::number::number.rs
