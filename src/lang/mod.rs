@@ -1,5 +1,5 @@
 pub mod tokenize;
-pub use tokenize::{tokenize, Token};
+pub use tokenize::tokenize;
 
 mod to_sql;
 pub use to_sql::to_sql;
