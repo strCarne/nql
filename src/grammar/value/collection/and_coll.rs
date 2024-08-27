@@ -19,7 +19,6 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    #[ignore = "not implemented yet"]
     fn and_coll_test() {
         let input_data = vec![
             "{ 1, 2, 3, }",
@@ -30,7 +29,7 @@ mod tests {
         .into_iter();
 
         let expected_results = vec![
-            Err("{ 1, 2, 3, }"),
+            Err(", }"),
             Err("[ 1, 2, 3]"),
             Ok((
                 "",
