@@ -20,7 +20,7 @@ pub fn statement(input: &str) -> ParsingResult<Statement> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn statement_test() {
         todo!("Make unit test")
     }

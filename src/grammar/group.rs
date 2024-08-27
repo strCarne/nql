@@ -9,3 +9,13 @@ pub fn group(input: &str) -> ParsingResult<NQLang> {
     )
     .parse(input)
 }
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    #[ignore = "not implemented yet"]
+    fn group_test() {
+        todo!("Make unit test")
+    }
+}

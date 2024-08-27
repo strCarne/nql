@@ -13,5 +13,16 @@ pub fn unit(input: &str) -> ParsingResult<Unit> {
         group.map(|grp| Unit::Grp(grp)),
         statement.map(|stmt| Unit::Stmt(stmt)),
     ])
+    .whitespace_wrap()
     .parse(input)
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    #[ignore = "not implemented yet"]
+    fn unit_test() {
+        todo!("Make unit test")
+    }
 }

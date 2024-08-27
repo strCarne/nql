@@ -4,3 +4,4 @@ target
 bin
 Cargo.lock
 input.nql
+input_complex.nql

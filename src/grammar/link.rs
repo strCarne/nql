@@ -10,7 +10,9 @@ pub fn link(input: &str) -> ParsingResult<Link> {
     let res = combinators::single_of(vec![
         primitives::character('&').map(|_| Link::And),
         primitives::character('|').map(|_| Link::Or),
-    ]).parse(input);
+    ])
+        .whitespace_wrap()
+        .parse(input);
 
     res
 }
@@ -26,10 +28,10 @@ mod tests {
         let input_data = vec![" ", "&", "val | val", "| val", "#"].into_iter();
 
         let expected_results = vec![
-            Err(" "),
+            Err(""),
             Ok(("", Link::And)),
             Err("val | val"),
-            Ok((" val", Link::Or)),
+            Ok(("val", Link::Or)),
             Err("#"),
         ]
         .into_iter();

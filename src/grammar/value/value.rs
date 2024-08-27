@@ -1,6 +1,6 @@
 use crate::{
     combinators::{self},
-    primitives, Parser, ParsingResult,
+    Parser, ParsingResult,
 };
 
 use super::{collection, ordinary_value, range, Collection, OrdinaryValue, Range};
@@ -13,19 +13,10 @@ pub enum Value {
 }
 
 pub fn value(input: &str) -> ParsingResult<Value> {
-    let whitespaces =
-        |input| combinators::zero_or_more(primitives::any.pred(|c| c.is_whitespace())).parse(input);
-
     combinators::single_of(vec![
-        range
-            .wrap(whitespaces.clone())
-            .map(|range| Value::Range(range)),
-        collection
-            .wrap(whitespaces)
-            .map(|collection| Value::Collection(collection)),
-        ordinary_value
-            .wrap(whitespaces.clone())
-            .map(|ordinary| Value::OrdinaryValue(ordinary)),
+        range.map(|range| Value::Range(range)),
+        collection.map(|collection| Value::Collection(collection)),
+        ordinary_value.map(|ordinary| Value::OrdinaryValue(ordinary)),
     ])
     .parse(input)
 }
@@ -33,7 +24,7 @@ pub fn value(input: &str) -> ParsingResult<Value> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn value_test() {
         todo!("Make unit test")
     }

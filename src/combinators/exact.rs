@@ -22,7 +22,7 @@ where
 mod tests {
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn exact_combinator() {
         todo!("Make unit test")
     }

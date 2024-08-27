@@ -20,10 +20,8 @@ pub enum Collection {
 pub fn collection(input: &str) -> ParsingResult<Collection> {
     combinators::single_of(vec![
         and_coll
-            .whitespace_wrap()
             .map(|output| Collection::AndColl(output)),
         or_coll
-            .whitespace_wrap()
             .map(|output| Collection::OrColl(output)),
     ])
     .parse(input)

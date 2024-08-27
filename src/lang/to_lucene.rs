@@ -1,7 +1,7 @@
 use crate::grammar::NQToken;
 
 pub fn to_lucene(_tokens: &Vec<NQToken>) -> String {
-    todo!("Not implemented yet");
+    todo!("not implemented yet");
     // let mut buf = String::new();
     // let mut prev_is_stmt = false;
     // let mut prev_is_link = false;
@@ -111,7 +111,7 @@ pub fn to_lucene(_tokens: &Vec<NQToken>) -> String {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn to_lucene_test() {
         todo!("Make unit test")
     }

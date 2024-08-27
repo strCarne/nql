@@ -14,11 +14,11 @@ pub enum NQToken {
 pub fn nqlang(mut input: &str) -> ParsingResult<NQLang> {
     let mut nq_lang = Vec::new();
 
-    let (next_input, unit_token) = unit.whitespace_wrap().parse(input)?;
+    let (next_input, unit_token) = unit.parse(input)?;
     nq_lang.push(NQToken::Unit(unit_token));
     input = next_input;
 
-    let parser = combinators::pair(link.whitespace_wrap(), unit.whitespace_wrap());
+    let parser = combinators::pair(link, unit);
     loop {
         match parser.parse(input) {
             Ok((next_input, nq_tokens)) => {
@@ -33,4 +33,14 @@ pub fn nqlang(mut input: &str) -> ParsingResult<NQLang> {
     }
 
     Ok((input, nq_lang))
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    #[ignore = "not implemented yet"]
+    fn nqlang_test() {
+        todo!("Make unit test")
+    }
 }

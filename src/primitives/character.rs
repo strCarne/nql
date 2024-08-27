@@ -10,7 +10,7 @@ pub fn character<'a>(expected: char) -> impl Parser<'a, ()> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn character_test() {
         todo!("Make unit test")
     }

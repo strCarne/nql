@@ -17,7 +17,7 @@ where
 mod tests {
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn test_and_then() {
         todo!("Make unit test")
     }

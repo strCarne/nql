@@ -1,7 +1,7 @@
 use crate::grammar::NQToken;
 
 pub fn to_sql(_tokens: &Vec<NQToken>) -> String {
-    todo!("Not implemented yet");
+    todo!("not implemented yet");
     // let table_name = 'a: {
     //     for token in tokens {
     //         match token {
@@ -194,7 +194,7 @@ pub fn to_sql(_tokens: &Vec<NQToken>) -> String {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn to_sql_test() {
         todo!("Make unit test")
     }

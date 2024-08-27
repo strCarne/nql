@@ -18,7 +18,7 @@ pub fn and_coll(input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
 mod tests {
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn and_coll_test() {
         todo!("Make unit test")
     }

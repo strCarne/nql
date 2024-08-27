@@ -10,7 +10,7 @@ pub fn any(input: &str) -> ParsingResult<char> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn any_test() {
         todo!("Make unit test")
     }

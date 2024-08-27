@@ -1,7 +1,7 @@
 use crate::{primitives::any, Parser, ParsingResult};
 
-// IDENTTIFIER ::= [a-zA-Z_][a-zA-Z0-9_]*
-pub fn identifier(input: &str) -> ParsingResult<String> {
+// KEY ::= [a-zA-Z_][a-zA-Z0-9_]*
+pub fn key(input: &str) -> ParsingResult<String> {
     any.pred(|c| c.is_ascii_alphabetic() || *c == '_')
         .and_then(|c| {
             move |mut input| {
@@ -27,7 +27,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn identifier_test() {
+    fn key_test() {
         let input_data = vec![
             "valid",
             "_also_valid",
@@ -57,7 +57,7 @@ mod tests {
         );
 
         for (input, expected) in input_data.zip(expected_results) {
-            assert_eq!(identifier(input), expected);
+            assert_eq!(key(input), expected);
         }
     }
 }

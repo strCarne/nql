@@ -4,7 +4,7 @@ use crate::{
 };
 
 pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
-    let (next_input, head) = ordinary_value.whitespace_wrap().parse(input)?;
+    let (next_input, head) = ordinary_value.parse(input)?;
 
     let mut elems = Vec::new();
     elems.push(head);
@@ -12,7 +12,7 @@ pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
 
     let parser = primitives::character(',')
         .whitespace_wrap()
-        .and_then(|_| ordinary_value.whitespace_wrap());
+        .and_then(|_| ordinary_value);
 
     while let Ok((next_input, elem)) = parser.parse(input) {
         elems.push(elem);
@@ -25,7 +25,7 @@ pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn coll_primitive_test() {
         todo!("Make unit test")
     }

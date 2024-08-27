@@ -11,13 +11,13 @@ NQLang ::= Unit (Link Unit)*
 ```
 
 ```
-Link ::= AND | OR
+Link ::= WhitespaceWrap (AND | OR) WhitespaceWrap
 AND ::= \&
 OR ::= \|
 ```
 
 ```
-Unit ::= Statement | Group
+Unit ::= WhitespaceWrap (Statement | Group) WhitespaceWrap
 
 Group ::= OpenBrace NQLang CloseBrace
 OpenBrace ::= \(
@@ -33,11 +33,14 @@ ExtensionEscape ::= \$
 
 ```
 KeyValue ::= Key ComparasionOperator Value
-ComparasionOperator ::= = | (!=) | (<=) | (>=) | < | >
+ComparasionOperator ::= WhitespaceWrap (= | (!=) | (<=) | (>=) | < | >) WhitespaceWrap
 
 Key ::= [a-zA-Z_][a-zA-Z0-9_]*
 
 Value ::= OrdinaryValue | Range | Collection
+```
+
+```
 OrdinaryValue ::= Boolean | Date | Number | String
 ```
 
@@ -92,7 +95,7 @@ Range := DateRange | NumberRange
 DateRange ::= Date RangeOp Date
 NumberRange ::= Number RangeOp Number
 
-RangeOp ::= EE | IE | EI | II
+RangeOp ::= WhitespaceWrap (EE | IE | EI | II) WhitespaceWrap
 EE ::= Point Point
 IE ::= EqSign Point
 EI ::= Point EqSign
@@ -105,8 +108,14 @@ I -> inclusively
 Collection ::= AndCollection | OrCollection
 AndCollection ::= ACOpenBrace CollectionBody ACCloseBrace
 OrCollection ::= OCOpenBrace CollectionBody OCCloseBrace
-CollectionBody ::= OrdinaryValue (Comma OrdinaryValue)*
+CollectionBody ::= OrdinaryValue (WhitespaceWrap Comma WhitespaceWrap OrdinaryValue)*
 ```
+
+```
+WhitespaceWrap ::= Whitespace*
+Whitespace -> Any Non Visible Character
+```
+
 ## FAQ
 
 #### What languages NQL supports?

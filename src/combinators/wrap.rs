@@ -34,19 +34,19 @@ where
 mod tests {
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn wrap_combinator() {
         todo!("Make unit test")
     }
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn wrap_after_combinator() {
         todo!("Make unit test")
     }
 
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn wrap_before_combinator() {
         todo!("Make unit test")
     }

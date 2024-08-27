@@ -1,7 +1,7 @@
-use crate::{combinators, primitives, Parser, ParsingResult};
+use crate::{Parser, ParsingResult};
 
 use super::{
-    comparasion_operator, identifier,
+    comparasion_operator, key,
     value::{value, Value},
     ComparasionOperator,
 };
@@ -14,16 +14,11 @@ pub struct KeyValue {
 }
 
 pub fn key_value(input: &str) -> ParsingResult<KeyValue> {
-    let whitespaces =
-        |input| combinators::zero_or_more(primitives::any.pred(|c| c.is_whitespace())).parse(input);
+    let (input, k) = key.parse(input)?;
 
-    let (input, k) = identifier.wrap(whitespaces.clone()).parse(input)?;
+    let (input, op) = comparasion_operator.parse(input)?;
 
-    let (input, op) = comparasion_operator
-        .wrap(whitespaces.clone())
-        .parse(input)?;
-
-    let (input, v) = value.wrap(whitespaces).parse(input)?;
+    let (input, v) = value.parse(input)?;
 
     Ok((input, KeyValue { k, op, v }))
 }
@@ -31,7 +26,7 @@ pub fn key_value(input: &str) -> ParsingResult<KeyValue> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn key_value_test() {
         todo!("Make unit test")
     }

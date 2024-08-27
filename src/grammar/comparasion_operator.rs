@@ -20,13 +20,14 @@ pub fn comparasion_operator(input: &str) -> ParsingResult<ComparasionOperator> {
         literal("<").map(|_| ComparasionOperator::Less),
         literal(">").map(|_| ComparasionOperator::Greater),
     ])
+    .whitespace_wrap()
     .parse(input)
 }
 
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn comparasion_operator_test() {
         todo!("Make unit test")
     }

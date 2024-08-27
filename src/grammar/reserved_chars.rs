@@ -11,7 +11,7 @@ pub fn reserved_chars<'a>() -> impl Parser<'a, char> {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[ignore = "Not implemented yet"]
+    #[ignore = "not implemented yet"]
     fn reserved_chars_test() {
         todo!("Make unit test")
     }
