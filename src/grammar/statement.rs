@@ -1,20 +1,9 @@
-use crate::{combinators, primitives, Parser, ParsingResult};
+use crate::{Parser, ParsingResult};
 
 use super::{key_value, KeyValue};
 
-#[derive(Debug, PartialEq)]
-pub enum Statement {
-    Field(KeyValue),
-    Extension(KeyValue),
-}
-
-pub fn statement(input: &str) -> ParsingResult<Statement> {
-    combinators::single_of(vec![
-        key_value.map(|output| Statement::Field(output)),
-        primitives::character('$')
-            .and_then(|_| key_value.map(|output| Statement::Extension(output))),
-    ])
-    .parse(input)
+pub fn statement(input: &str) -> ParsingResult<KeyValue> {
+    key_value.parse(input)
 }
 
 #[cfg(test)]
@@ -45,37 +34,23 @@ mod tests {
         let expected_results = vec![
             Ok((
                 "",
-                Statement::Field(KeyValue {
+                KeyValue {
                     k: String::from("key"),
                     op: ComparasionOperator::Eq,
                     v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                }),
+                },
             )),
             Err(" key=value"),
-            Ok((
-                " 10",
-                Statement::Extension(KeyValue {
-                    k: String::from("limit"),
-                    op: ComparasionOperator::Less,
-                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from(">"))),
-                }),
-            )),
+            Err("$limit <> 10"),
             Ok((
                 "",
-                Statement::Field(KeyValue {
+                KeyValue {
                     k: String::from("limit"),
                     op: ComparasionOperator::NotEq,
                     v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
-                }),
+                },
             )),
-            Ok((
-                "",
-                Statement::Extension(KeyValue {
-                    k: String::from("key"),
-                    op: ComparasionOperator::Eq,
-                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                }),
-            )),
+            Err("$key = value"),
         ]
         .into_iter();
 

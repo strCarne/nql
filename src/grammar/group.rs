@@ -15,7 +15,7 @@ mod tests {
     use super::*;
     use crate::grammar::{
         value::{OrdinaryValue, Value},
-        ComparasionOperator, KeyValue, Link, NQToken, Statement, Unit,
+        ComparasionOperator, KeyValue, Link, NQToken, Unit,
     };
     use pretty_assertions::assert_eq;
 
@@ -32,35 +32,35 @@ mod tests {
         let expected_results = vec![
             Ok((
                 "",
-                vec![NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                vec![NQToken::Unit(Unit::Stmt(KeyValue {
                     k: String::from("key"),
                     op: ComparasionOperator::Eq,
                     v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                })))],
+                }))],
             )),
             Err(" ( key = value )"),
             Ok((
                 "",
-                vec![NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                vec![NQToken::Unit(Unit::Stmt(KeyValue {
                     k: String::from("key"),
                     op: ComparasionOperator::Eq,
                     v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                })))],
+                }))],
             )),
             Ok((
                 " & key_3 < value_3",
                 vec![
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("key_1"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value_1"))),
-                    }))),
+                    })),
                     NQToken::Link(Link::Or),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("key_2"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value_2"))),
-                    }))),
+                    })),
                 ],
             )),
         ]

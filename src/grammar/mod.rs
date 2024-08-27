@@ -4,7 +4,7 @@ mod link;
 pub use link::{link, Link};
 
 mod statement;
-pub use statement::{statement, Statement};
+pub use statement::statement;
 
 mod key_value;
 pub use key_value::{key_value, KeyValue};
@@ -26,3 +26,6 @@ pub use unit::{unit, Unit};
 
 mod group;
 pub use group::group;
+
+pub mod extension;
+pub use extension::extension;

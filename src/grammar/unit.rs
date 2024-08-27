@@ -1,10 +1,10 @@
 use crate::{combinators, Parser, ParsingResult};
 
-use super::{group, statement, NQLang, Statement};
+use super::{group, statement, KeyValue, NQLang};
 
 #[derive(Debug, PartialEq)]
 pub enum Unit {
-    Stmt(Statement),
+    Stmt(KeyValue),
     Grp(NQLang),
 }
 
@@ -45,39 +45,23 @@ mod tests {
         let expected_results = vec![
             Ok((
                 "",
-                Unit::Grp(vec![NQToken::Unit(Unit::Stmt(Statement::Field(
-                    KeyValue {
-                        k: String::from("key"),
-                        op: ComparasionOperator::Eq,
-                        v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                    },
-                )))]),
-            )),
-            Err("=value"),
-            Ok((
-                "10",
-                Unit::Stmt(Statement::Extension(KeyValue {
-                    k: String::from("limit"),
-                    op: ComparasionOperator::Less,
-                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from(">"))),
-                })),
-            )),
-            Ok((
-                "",
-                Unit::Stmt(Statement::Field(KeyValue {
-                    k: String::from("limit"),
-                    op: ComparasionOperator::NotEq,
-                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
-                })),
-            )),
-            Ok((
-                "",
-                Unit::Stmt(Statement::Extension(KeyValue {
+                Unit::Grp(vec![NQToken::Unit(Unit::Stmt(KeyValue {
                     k: String::from("key"),
                     op: ComparasionOperator::Eq,
                     v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
-                })),
+                }))]),
             )),
+            Err("=value"),
+            Err("$limit <> 10"),
+            Ok((
+                "",
+                Unit::Stmt(KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::NotEq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                }),
+            )),
+            Err("$key = value"),
         ]
         .into_iter();
 

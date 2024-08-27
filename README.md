@@ -7,7 +7,7 @@
 ## Documentation on language grammar
 
 ```
-NQLang ::= Unit (Link Unit)*
+NQLang ::= Unit (Link Unit)* Extension*
 ```
 
 ```
@@ -23,11 +23,11 @@ Group ::= OpenBrace NQLang CloseBrace
 OpenBrace ::= \(
 CloseBrace ::= \)
 
-Statement ::= KeyValue | Extension
+Statement ::= KeyValue
 ```
 
 ```
-Extension ::= ExtensionEscape KeyValue
+Extension ::= ExtensionEscape KeyValue WhitespaceWrap
 ExtensionEscape ::= \$
 ```
 

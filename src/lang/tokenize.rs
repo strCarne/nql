@@ -18,7 +18,7 @@ mod tests {
         basic_types::{Date, Number},
         grammar::{
             value::{Collection, OrdinaryValue, Range, RangeBounds, RangeOp, Value},
-            ComparasionOperator, KeyValue, Link, NQToken, Statement, Unit,
+            ComparasionOperator, KeyValue, Link, NQToken, Unit,
         },
     };
 
@@ -50,14 +50,14 @@ mod tests {
 
                 is_cringe = False &
 
-                number_of_friends > 10 &
+                number_of_friends > 10
 
-                $example_created_at=21:08:2024 &
-                $unique=true &
-                $iq=140 &
+                $example_created_at=21:08:2024
+                $unique=true
+                $iq=140
 
-                $table_name=famous_persons &
-                $limit = 1 &
+                $table_name=famous_persons
+                $limit = 1
                 $offset = 0
             "#,
             r#"
@@ -82,14 +82,14 @@ mod tests {
 
                 is_cringe = False &
 
-                number_of_friends > 10 &
+                number_of_friends > 10
 
-                $example_created_at=21:08:2024 &
-                $unique=true &
-                $iq=140 &
+                $example_created_at=21:08:2024
+                $unique=true
+                $iq=140
 
-                $table_name=famous_persons &
-                $limit = 1 &
+                $table_name=famous_persons
+                $limit = 1
                 $offset = 0
 
                 incorrect_token_at_the_end
@@ -105,43 +105,43 @@ mod tests {
                 vec![
                     NQToken::Unit(Unit::Grp(vec![
                         NQToken::Unit(Unit::Grp(vec![
-                            NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                            NQToken::Unit(Unit::Stmt(KeyValue {
                                 k: String::from("name"),
                                 op: ComparasionOperator::Eq,
                                 v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                                     "Semion",
                                 ))),
-                            }))),
+                            })),
                             NQToken::Link(Link::And),
-                            NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                            NQToken::Unit(Unit::Stmt(KeyValue {
                                 k: String::from("surname"),
                                 op: ComparasionOperator::Eq,
                                 v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                                     "Voevoda",
                                 ))),
-                            }))),
+                            })),
                         ])),
                         NQToken::Link(Link::Or),
                         NQToken::Unit(Unit::Grp(vec![
-                            NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                            NQToken::Unit(Unit::Stmt(KeyValue {
                                 k: String::from("name"),
                                 op: ComparasionOperator::Eq,
                                 v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                                     "Simon",
                                 ))),
-                            }))),
+                            })),
                             NQToken::Link(Link::And),
-                            NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                            NQToken::Unit(Unit::Stmt(KeyValue {
                                 k: String::from("surname"),
                                 op: ComparasionOperator::Eq,
                                 v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                                     "Vogue",
                                 ))),
-                            }))),
+                            })),
                         ])),
                     ])),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("acceptable_nicknames"),
                         op: ComparasionOperator::Eq,
                         v: Value::Collection(Collection::OrColl(vec![
@@ -149,9 +149,9 @@ mod tests {
                             OrdinaryValue::String(String::from("Simon")),
                             OrdinaryValue::String(String::from("Повелитель Вселенной")),
                         ])),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("born_in_range_of"),
                         op: ComparasionOperator::Eq,
                         v: Value::Range(Range {
@@ -169,23 +169,23 @@ mod tests {
                             ),
                             op: RangeOp::II,
                         }),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("age"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(19))),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("habit"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                             "growing money tree",
                         ))),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("was_in"),
                         op: ComparasionOperator::Eq,
                         v: Value::Collection(Collection::AndColl(vec![
@@ -198,21 +198,20 @@ mod tests {
                             OrdinaryValue::String(String::from("Italia")),
                             OrdinaryValue::String(String::from("Austria")),
                         ])),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("is_cringe"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Boolean(false)),
-                    }))),
+                    })),
                     NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Field(KeyValue {
+                    NQToken::Unit(Unit::Stmt(KeyValue {
                         k: String::from("number_of_friends"),
                         op: ComparasionOperator::Greater,
                         v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    })),
+                    NQToken::Extension(KeyValue {
                         k: String::from("example_created_at"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Date(Date {
@@ -220,39 +219,34 @@ mod tests {
                             month: 8,
                             year: 2024,
                         })),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    }),
+                    NQToken::Extension(KeyValue {
                         k: String::from("unique"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Boolean(true)),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    }),
+                    NQToken::Extension(KeyValue {
                         k: String::from("iq"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(140))),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    }),
+                    NQToken::Extension(KeyValue {
                         k: String::from("table_name"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::String(String::from(
                             "famous_persons",
                         ))),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    }),
+                    NQToken::Extension(KeyValue {
                         k: String::from("limit"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(1))),
-                    }))),
-                    NQToken::Link(Link::And),
-                    NQToken::Unit(Unit::Stmt(Statement::Extension(KeyValue {
+                    }),
+                    NQToken::Extension(KeyValue {
                         k: String::from("offset"),
                         op: ComparasionOperator::Eq,
                         v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(0))),
-                    }))),
+                    }),
                 ],
             )),
             Err(r#"
@@ -277,14 +271,14 @@ mod tests {
 
                 is_cringe = False &
 
-                number_of_friends > 10 &
+                number_of_friends > 10
 
-                $example_created_at=21:08:2024 &
-                $unique=true &
-                $iq=140 &
+                $example_created_at=21:08:2024
+                $unique=true
+                $iq=140
 
-                $table_name=famous_persons &
-                $limit = 1 &
+                $table_name=famous_persons
+                $limit = 1
                 $offset = 0
 
                 incorrect_token_at_the_end
