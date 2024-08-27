@@ -8,7 +8,7 @@ use crate::{combinators, grammar, primitives, Parser, ParsingResult};
 pub fn regular_string(mut input: &str) -> ParsingResult<String> {
     // 1. Check if it is a quoted string
     if let Ok(_) = combinators::single_of(vec![
-        grammar::reserved_chars().map(|_| ()),
+        grammar::reserved_chars.map(|_| ()),
         primitives::any
             .pred(|c| c.is_whitespace())
             .map(|_| ()),

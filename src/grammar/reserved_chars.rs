@@ -1,18 +1,11 @@
-use crate::{primitives, Parser};
+use crate::{primitives, Parser, ParsingResult};
 
 pub const RESERVED_CHARS: [char; 13] = [
     '(', ')', ',', '&', '|', '^', '{', '}', '[', ']', '"', '\'', '\\',
 ];
 
-pub fn reserved_chars<'a>() -> impl Parser<'a, char> {
-    primitives::any.pred(|c| RESERVED_CHARS.contains(c))
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    #[ignore = "not implemented yet"]
-    fn reserved_chars_test() {
-        todo!("Make unit test")
-    }
+pub fn reserved_chars(input: &str) -> ParsingResult<char> {
+    primitives::any
+        .pred(|c| RESERVED_CHARS.contains(c))
+        .parse(input)
 }
