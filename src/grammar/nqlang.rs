@@ -4,7 +4,7 @@ use super::{link, unit, Link, Unit};
 
 pub type NQLang = Vec<NQToken>;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum NQToken {
     Unit(Unit),
     Link(Link),

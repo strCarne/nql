@@ -11,7 +11,7 @@ pub use or_coll::or_coll;
 mod coll_primitive;
 pub use coll_primitive::coll_primitive;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Collection {
     AndColl(Vec<OrdinaryValue>),
     OrColl(Vec<OrdinaryValue>),

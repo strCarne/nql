@@ -2,7 +2,7 @@ use crate::{combinators, Parser, ParsingResult};
 
 use super::{group, statement, NQLang, Statement};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Unit {
     Stmt(Statement),
     Grp(NQLang),

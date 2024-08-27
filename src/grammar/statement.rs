@@ -2,7 +2,7 @@ use crate::{combinators, primitives, Parser, ParsingResult};
 
 use super::{key_value, KeyValue};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Statement {
     Field(KeyValue),
     Extension(KeyValue),

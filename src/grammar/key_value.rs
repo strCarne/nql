@@ -6,7 +6,7 @@ use super::{
     ComparasionOperator,
 };
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct KeyValue {
     pub k: String,
     pub op: ComparasionOperator,

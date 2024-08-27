@@ -5,7 +5,7 @@ use crate::{
 
 use super::{collection, ordinary_value, range, Collection, OrdinaryValue, Range};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Value {
     OrdinaryValue(OrdinaryValue),
     Range(Range),
