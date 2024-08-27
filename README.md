@@ -106,8 +106,8 @@ I -> inclusively
 
 ```
 Collection ::= AndCollection | OrCollection
-AndCollection ::= ACOpenBrace CollectionBody ACCloseBrace
-OrCollection ::= OCOpenBrace CollectionBody OCCloseBrace
+AndCollection ::= ACOpenBrace WhitespaceWrap CollectionBody WhitespaceWrap ACCloseBrace
+OrCollection ::= OCOpenBrace WhitespaceWrap CollectionBody WhitespaceWrap OCCloseBrace
 CollectionBody ::= OrdinaryValue (WhitespaceWrap Comma WhitespaceWrap OrdinaryValue)*
 ```
 

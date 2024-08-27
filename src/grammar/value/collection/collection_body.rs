@@ -3,7 +3,7 @@ use crate::{
     primitives, Parser, ParsingResult,
 };
 
-pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
+pub fn collection_body(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
     let (next_input, head) = ordinary_value.parse(input)?;
 
     let mut elems = Vec::new();
@@ -26,7 +26,7 @@ pub fn coll_primitive(mut input: &str) -> ParsingResult<Vec<OrdinaryValue>> {
 mod tests {
     #[test]
     #[ignore = "not implemented yet"]
-    fn coll_primitive_test() {
+    fn collection_body_test() {
         todo!("Make unit test")
     }
 }
