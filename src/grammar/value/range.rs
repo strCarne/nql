@@ -92,9 +92,90 @@ pub fn range_op(input: &str) -> ParsingResult<RangeOp> {
 #[cfg(test)]
 mod tests {
 
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn range_test() {
-        todo!("Make unit test")
+        let input_data = vec![
+            "1 .. 2",
+            "1:1:2000== 2:1:2000",
+            "1..1:1:2000",
+            "",
+            "1:1:2000..10000",
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            Ok((
+                "",
+                Range {
+                    bounds: RangeBounds::NumberRange(Number::Integer(1), Number::Integer(2)),
+                    op: RangeOp::EE,
+                },
+            )),
+            Ok((
+                "",
+                Range {
+                    bounds: RangeBounds::DateRange(
+                        Date {
+                            day: 1,
+                            month: 1,
+                            year: 2000,
+                        },
+                        Date {
+                            day: 2,
+                            month: 1,
+                            year: 2000,
+                        },
+                    ),
+                    op: RangeOp::II,
+                },
+            )),
+            Ok((
+                ":1:2000",
+                Range {
+                    bounds: RangeBounds::NumberRange(Number::Integer(1), Number::Integer(1)),
+                    op: RangeOp::EE,
+                },
+            )),
+            Err(""),
+            Err("1:1:2000..10000"),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(range(input), expected);
+        }
     }
+
+    #[test]
+    fn range_op_test() {
+        let input_data = vec!["  = = ", "  .= ", "=.", ".", "  ..", ".,"].into_iter();
+        let expected_results = vec![
+            Err("= = "),
+            Ok((("", RangeOp::EI))),
+            Ok((("", RangeOp::IE))),
+            Err("."),
+            Ok(("", RangeOp::EE)),
+            Err(".,"),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(range_op(input), expected);
+        }
+    } 
 }

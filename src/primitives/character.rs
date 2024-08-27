@@ -9,9 +9,37 @@ pub fn character<'a>(expected: char) -> impl Parser<'a, ()> {
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn character_test() {
-        todo!("Make unit test")
+        let input_data = vec!["cringe", "character", "", "\nLF"].into_iter();
+
+        let parsers = vec![
+            character('n'),
+            character('c'),
+            character('\n'),
+            character('\n'),
+        ]
+        .into_iter();
+
+        let expected_results =
+            vec![Err("cringe"), Ok(("haracter", ())), Err(""), Ok(("LF", ()))].into_iter();
+
+        assert!(
+            input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
+            "BAD TEST: number of input is not equal to number of results [correct the source data]"
+        );
+
+        let dataset = input_data
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
+
+        for (input, parser, expected) in dataset {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 }

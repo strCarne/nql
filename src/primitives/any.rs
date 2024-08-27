@@ -9,9 +9,30 @@ pub fn any(input: &str) -> ParsingResult<char> {
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn any_test() {
-        todo!("Make unit test")
+        let input_data = vec!["", "fukk", "token", " space"].into_iter();
+
+        let expected_results = vec![
+            Err(""),
+            Ok(("ukk", 'f')),
+            Ok(("oken", 't')),
+            Ok(("space", ' ')),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(any(input), expected);
+        }
     }
 }
