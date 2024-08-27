@@ -25,9 +25,60 @@ pub fn key_value(input: &str) -> ParsingResult<KeyValue> {
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use crate::{basic_types::Number, grammar::value::OrdinaryValue};
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn key_value_test() {
-        todo!("Make unit test")
+        let input_data = vec![
+            "key =  value",
+            " key=value",
+            "limit <> 10",
+            "limit != 10",
+            "$key = value",
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            Ok((
+                "",
+                KeyValue {
+                    k: String::from("key"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
+                },
+            )),
+            Err(" key=value"),
+            Ok((
+                " 10",
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::Less,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from(">"))),
+                },
+            )),
+            Ok((
+                "",
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::NotEq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+            )),
+            Err("$key = value"),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(key_value(input), expected);
+        }
     }
 }
