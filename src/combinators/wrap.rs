@@ -33,21 +33,68 @@ where
 #[cfg(test)]
 mod tests {
 
+    use crate::primitives;
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn wrap_combinator() {
-        todo!("Make unit test")
+        let input_data = vec![",comma,", "comma,"].into_iter();
+
+        let comma_wrapper = |input| primitives::literal(",").parse(input);
+        let parser = wrap(primitives::literal("comma"), comma_wrapper);
+
+        let expected_results = vec![Ok(("", ())), Err("comma,")].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 
     #[test]
-    #[ignore = "not implemented yet"]
     fn wrap_after_combinator() {
-        todo!("Make unit test")
+        let input_data = vec![",comma,", "comma,"].into_iter();
+
+        let comma_wrapper = |input| primitives::literal(",").parse(input);
+        let parser = wrap_after(primitives::literal("comma"), comma_wrapper);
+
+        let expected_results = vec![Err(",comma,"), Ok(("", ()))].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 
     #[test]
-    #[ignore = "not implemented yet"]
     fn wrap_before_combinator() {
-        todo!("Make unit test")
+        let input_data = vec![",comma,", "comma,"].into_iter();
+
+        let comma_wrapper = |input| primitives::literal(",").parse(input);
+        let parser = wrap_before(primitives::literal("comma"), comma_wrapper);
+
+        let expected_results = vec![Ok((",", ())), Err("comma,")].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 }
