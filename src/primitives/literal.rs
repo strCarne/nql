@@ -19,15 +19,65 @@ pub fn iliteral<'a>(expected: &'static str) -> impl Parser<'a, ()> {
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
     #[test]
-    #[ignore = "not implemented yet"]
     fn literal_test() {
-        todo!("Make unit test")
+        let input_data = vec![" dada", "dada", "match", "fAil"].into_iter();
+
+        let parsers = vec![
+            literal("dada"),
+            literal("dada"),
+            literal("match"),
+            literal("fail"),
+        ]
+        .into_iter();
+
+        let expected_results = vec![Err(" dada"), Ok(("", ())), Ok(("", ())), Err("fAil")];
+
+        assert!(
+            input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
+            "BAD TEST: number of input is not equal to number of results [correct the source data]"
+        );
+
+        let dataset = input_data
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
+
+        for (input, parser, expected) in dataset {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 
     #[test]
-    #[ignore = "not implemented yet"]
     fn iliteral_test() {
-        todo!("Make unit test")
+        let input_data = vec![" dada", "dada", "match", "fAil"].into_iter();
+
+        let parsers = vec![
+            iliteral("dada"),
+            iliteral("dada"),
+            iliteral("match"),
+            iliteral("fail"),
+        ]
+        .into_iter();
+
+        let expected_results = vec![Err(" dada"), Ok(("", ())), Ok(("", ())), Ok(("", ()))];
+
+        assert!(
+            input_data.len() == parsers.len() && parsers.len() == expected_results.len(),
+            "BAD TEST: number of input is not equal to number of results [correct the source data]"
+        );
+
+        let dataset = input_data
+            .zip(parsers)
+            .zip(expected_results)
+            .map(|((input, parser), expected)| (input, parser, expected));
+
+        for (input, parser, expected) in dataset {
+            assert_eq!(parser.parse(input), expected);
+        }
     }
 }
