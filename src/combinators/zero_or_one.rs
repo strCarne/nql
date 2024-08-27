@@ -28,6 +28,12 @@ mod tests {
             vec![Ok(("space", None)), Ok(("", Some(())))];
         let expected_results = expected_results.into_iter();
 
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
         for (input, expected) in input_data.zip(expected_results) {
             assert_eq!(parser.parse(input), expected);
         }
