@@ -19,10 +19,4 @@ mod tests {
     fn tokenize_test() {
         todo!("Make unit test")
     }
-
-    #[test]
-    #[ignore = "not implemented yet"]
-    fn token_test() {
-        todo!("Make unit test")
-    }
 }

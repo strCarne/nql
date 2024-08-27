@@ -74,8 +74,8 @@ pub fn to_sql(_tokens: &Vec<NQToken>) -> String {
     //                     ComparasionOperator::Eq => "=",
     //                     ComparasionOperator::Greater => ">",
     //                     ComparasionOperator::Less => "<",
-    //                     ComparasionOperator::GreaterOrEq => ">=",
-    //                     ComparasionOperator::LessOrEq => "<=",
+    //                     ComparasionOperator::GreaterEq => ">=",
+    //                     ComparasionOperator::LessEq => "<=",
     //                     ComparasionOperator::NotEq => "!=",
     //                 };
 

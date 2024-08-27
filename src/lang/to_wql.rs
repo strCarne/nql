@@ -19,8 +19,8 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //                 ComparasionOperator::Eq => "=",
     //                 ComparasionOperator::Greater => ">",
     //                 ComparasionOperator::Less => "<",
-    //                 ComparasionOperator::GreaterOrEq => ">=",
-    //                 ComparasionOperator::LessOrEq => "<=",
+    //                 ComparasionOperator::GreaterEq => ">=",
+    //                 ComparasionOperator::LessEq => "<=",
     //                 ComparasionOperator::NotEq => "!=",
     //             };
 
@@ -38,10 +38,10 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //             match &field.v {
     //                 Value::OrdinaryValue(val) => {
     //                     match field.op {
-    //                         ComparasionOperator::GreaterOrEq => {
+    //                         ComparasionOperator::GreaterEq => {
     //                             buf.push_str(&gen_comp_eq(&field.k, '>', &val.to_string()));
     //                         }
-    //                         ComparasionOperator::LessOrEq => {
+    //                         ComparasionOperator::LessEq => {
     //                             buf.push_str(&gen_comp_eq(&field.k, '<', &val.to_string()));
     //                         }
     //                         _ => {
@@ -84,10 +84,10 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //                     let mut iter = coll.iter();
     //                     if let Some(val) = iter.next() {
     //                         match field.op {
-    //                             ComparasionOperator::GreaterOrEq => {
+    //                             ComparasionOperator::GreaterEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '>', &val.to_string()));
     //                             }
-    //                             ComparasionOperator::LessOrEq => {
+    //                             ComparasionOperator::LessEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '<', &val.to_string()));
     //                             }
     //                             _ => {
@@ -104,10 +104,10 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //                     for val in iter {
     //                         buf.push_str(" AND ");
     //                         match field.op {
-    //                             ComparasionOperator::GreaterOrEq => {
+    //                             ComparasionOperator::GreaterEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '>', &val.to_string()));
     //                             }
-    //                             ComparasionOperator::LessOrEq => {
+    //                             ComparasionOperator::LessEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '<', &val.to_string()));
     //                             }
     //                             _ => {
@@ -130,10 +130,10 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //                     let mut iter = coll.iter();
     //                     if let Some(val) = iter.next() {
     //                         match field.op {
-    //                             ComparasionOperator::GreaterOrEq => {
+    //                             ComparasionOperator::GreaterEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '>', &val.to_string()));
     //                             }
-    //                             ComparasionOperator::LessOrEq => {
+    //                             ComparasionOperator::LessEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '<', &val.to_string()));
     //                             }
     //                             _ => {
@@ -150,10 +150,10 @@ pub fn to_wql(_tokens: &Vec<NQToken>) -> String {
     //                     for val in iter {
     //                         buf.push_str(" OR ");
     //                         match field.op {
-    //                             ComparasionOperator::GreaterOrEq => {
+    //                             ComparasionOperator::GreaterEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '>', &val.to_string()));
     //                             }
-    //                             ComparasionOperator::LessOrEq => {
+    //                             ComparasionOperator::LessEq => {
     //                                 buf.push_str(&gen_comp_eq(&field.k, '<', &val.to_string()));
     //                             }
     //                             _ => {

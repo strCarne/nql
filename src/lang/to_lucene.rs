@@ -19,8 +19,8 @@ pub fn to_lucene(_tokens: &Vec<NQToken>) -> String {
     //                 ComparasionOperator::Eq => ":",
     //                 ComparasionOperator::Greater => ":>",
     //                 ComparasionOperator::Less => ":<",
-    //                 ComparasionOperator::GreaterOrEq => ":>=",
-    //                 ComparasionOperator::LessOrEq => ":<=",
+    //                 ComparasionOperator::GreaterEq => ":>=",
+    //                 ComparasionOperator::LessEq => ":<=",
     //                 ComparasionOperator::NotEq => ":",
     //             };
 
