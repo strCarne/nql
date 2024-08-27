@@ -14,7 +14,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn character_test() {
+    fn character_test() { 
         let input_data = vec!["cringe", "character", "", "\nLF"].into_iter();
 
         let parsers = vec![
