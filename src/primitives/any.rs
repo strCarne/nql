@@ -13,7 +13,7 @@ mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
 
-    #[test]
+    #[test] 
     fn any_test() {
         let input_data = vec!["", "fukk", "token", " space"].into_iter();
 
