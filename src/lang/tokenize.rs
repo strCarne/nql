@@ -8,7 +8,7 @@ pub fn tokenize(input: &str) -> ParsingResult<NQLang> {
     if result.0.is_empty() {
         Ok(result)
     } else {
-        Err(input)
+        Err(result.0)
     }
 }
 
@@ -249,42 +249,10 @@ mod tests {
                     }),
                 ],
             )),
-            Err(r#"
-                ((name = Semion & surname = Voevoda) | (name = Simon & surname = Vogue)) &
-                acceptable_nicknames = [MEGATRON_2004, Simon, 'Повелитель Вселенной'] &
-
-                born_in_range_of = 1:12:2004==31:12:2004 &
-                age=19 &
-
-                habit = 'growing money tree' &
-
-                was_in = {
-                    Belarus,
-                    Poland,
-                    Lithuania,
-                    Ukraine,
-                    'Czech Republic',
-                    Germany,
-                    Italia,
-                    Austria
-                } &
-
-                is_cringe = False &
-
-                number_of_friends > 10
-
-                $example_created_at=21:08:2024
-                $unique=true
-                $iq=140
-
-                $table_name=famous_persons
-                $limit = 1
-                $offset = 0
-
-                incorrect_token_at_the_end
+            Err(r#"incorrect_token_at_the_end
             "#),
             Err(""),
-            Err("((name = Semion & surname = Voevoda) | (name = Simon & surname = Vogue)) & incorrect_token"),
+            Err("& incorrect_token"),
         ]
         .into_iter();
 

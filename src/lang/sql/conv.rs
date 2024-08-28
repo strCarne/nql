@@ -101,3 +101,25 @@ pub fn link(l: &Link) -> String {
         Link::Or => String::from(" OR "),
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    #[ignore = "not implemented"]
+    fn statement_conv_test() {
+        todo!("Implement test");
+    }
+
+    #[test]
+    #[ignore = "not implemented"]
+    fn group_conv_test() {
+        todo!("Implement test");
+    }
+
+    #[test]
+    #[ignore = "not implemented"]
+    fn link_conv_test() {
+        todo!("Implement test");
+    }
+}
