@@ -4,7 +4,9 @@ mod ext;
 
 mod conv;
 
-pub fn convert(tokens: &NQLang, extensions: &Vec<KeyValue>) -> String {
+pub fn convert(tokens: &NQLang, extensions: Option<&Vec<KeyValue>>) -> String {
+    let extensions = extensions.expect("sql::convert has must-have 'table' extension");
+    
     let table_name = ext::table(extensions);
 
     let limit = ext::limit(extensions);

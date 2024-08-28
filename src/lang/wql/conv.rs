@@ -47,9 +47,7 @@ pub fn statement(stmt: &KeyValue) -> String {
             Collection::AndColl(coll) => {
                 buf += &collection_body(&stmt.k, &stmt.op, coll, &Link::And)
             }
-            Collection::OrColl(coll) => {
-                buf += &collection_body(&stmt.k, &stmt.op, coll, &Link::And)
-            }
+            Collection::OrColl(coll) => buf += &collection_body(&stmt.k, &stmt.op, coll, &Link::Or),
         },
     }
 
@@ -149,5 +147,29 @@ pub fn link(l: &Link) -> &'static str {
     match l {
         Link::And => "%3B",
         Link::Or => ",",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn link_conv_test() {
+        let input_data = vec![Link::And, Link::Or].into_iter();
+
+        let expected_results = vec!["%3B", ","].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(link(&input), expected);
+        }
     }
 }

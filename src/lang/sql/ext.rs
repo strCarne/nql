@@ -15,7 +15,7 @@ pub fn table(extensions: &Vec<KeyValue>) -> String {
         }
     }
 
-    panic!("Error: unknown SQL table name. Please add $table_name='your_table_name' to your query");
+    panic!("Error: unknown SQL table name. Please add $table='your_table_name' to your query");
 }
 
 pub fn limit(extensions: &Vec<KeyValue>) -> Option<i64> {
