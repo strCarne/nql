@@ -208,6 +208,52 @@ mod tests {
     }
 
     #[test]
+    fn group_conv_test() {
+        let input_data = vec![
+            vec![NQToken::Unit(Unit::Stmt(KeyValue {
+                k: String::from("key"),
+                op: ComparasionOperator::Eq,
+                v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
+            }))],
+            vec![NQToken::Unit(Unit::Stmt(KeyValue {
+                k: String::from("key"),
+                op: ComparasionOperator::Eq,
+                v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value"))),
+            }))],
+            vec![
+                NQToken::Unit(Unit::Stmt(KeyValue {
+                    k: String::from("key_1"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value_1"))),
+                })),
+                NQToken::Link(Link::Or),
+                NQToken::Unit(Unit::Stmt(KeyValue {
+                    k: String::from("key_2"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("value_2"))),
+                })),
+            ],
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            "(key='value')",
+            "(key='value')",
+            "(key_1='value_1',key_2='value_2')",
+        ];
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(group(&input), expected);
+        }
+    }
+
+    #[test]
     fn link_conv_test() {
         let input_data = vec![Link::And, Link::Or].into_iter();
 
