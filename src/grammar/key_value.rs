@@ -2,7 +2,7 @@ use crate::{Parser, ParsingResult};
 
 use super::{
     comparasion_operator, key,
-    value::{value, Value},
+    value::{value, OrdinaryValue, Value},
     ComparasionOperator,
 };
 
@@ -11,6 +11,16 @@ pub struct KeyValue {
     pub k: String,
     pub op: ComparasionOperator,
     pub v: Value,
+}
+
+impl Default for KeyValue {
+    fn default() -> Self {
+        Self {
+            k: String::new(),
+            op: ComparasionOperator::Eq,
+            v: Value::OrdinaryValue(OrdinaryValue::Boolean(false)),
+        }
+    }
 }
 
 pub fn key_value(input: &str) -> ParsingResult<KeyValue> {
