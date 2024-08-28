@@ -1,4 +1,7 @@
-use crate::grammar::{value::{Collection, Range, RangeOp, Value}, ComparasionOperator, KeyValue, Link, NQLang, NQToken, Unit};
+use crate::grammar::{
+    value::{Collection, Range, RangeOp, Value},
+    ComparasionOperator, KeyValue, Link, NQLang, NQToken, Unit,
+};
 
 pub fn statement(stmt: &KeyValue) -> String {
     let mut buf = String::new();
@@ -95,15 +98,18 @@ pub fn group(grp: &NQLang) -> String {
     buf
 }
 
-pub fn link(l: &Link) -> String {
+pub fn link(l: &Link) -> &'static str {
     match l {
-        Link::And => String::from(" AND "),
-        Link::Or => String::from(" OR "),
+        Link::And => " AND ",
+        Link::Or => " OR ",
     }
 }
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     #[ignore = "not implemented"]
@@ -118,8 +124,19 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "not implemented"]
     fn link_conv_test() {
-        todo!("Implement test");
+        let input_data = vec![Link::And, Link::Or].into_iter();
+
+        let expected_results = vec![" AND ", " OR "].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(link(&input), expected);
+        }
     }
 }
