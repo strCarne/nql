@@ -6,3 +6,4 @@ pub use extract_extensions::extract_extensions;
 
 pub mod sql;
 pub mod wql;
+pub mod lucene;
