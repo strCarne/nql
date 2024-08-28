@@ -7,7 +7,11 @@
 ## Documentation on language grammar
 
 ```
-NQLang ::= Unit (Link Unit)* Extension*
+NQLang ::= UnitsSequance Extension*
+```
+
+```
+UnitsSequance ::= Unit (Link Unit)*
 ```
 
 ```
@@ -19,7 +23,7 @@ OR ::= \|
 ```
 Unit ::= WhitespaceWrap (Statement | Group) WhitespaceWrap
 
-Group ::= OpenBrace NQLang CloseBrace
+Group ::= OpenBrace UnitsSequance CloseBrace
 OpenBrace ::= \(
 CloseBrace ::= \)
 

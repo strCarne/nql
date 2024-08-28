@@ -1,6 +1,5 @@
-use crate::{combinators, Parser, ParsingResult};
-
-use super::{extension, link, unit, KeyValue, Link, Unit};
+use super::{extension, units_sequance, KeyValue, Link, Unit};
+use crate::ParsingResult;
 
 pub type NQLang = Vec<NQToken>;
 
@@ -13,30 +12,13 @@ pub enum NQToken {
 
 // NQLANG ::= UNIT (LINK UNIT)*
 pub fn nqlang(mut input: &str) -> ParsingResult<NQLang> {
-    let mut nq_lang = Vec::new();
-
-    let (next_input, unit_token) = unit.parse(input)?;
-    nq_lang.push(NQToken::Unit(unit_token));
+    let (next_input, mut tokens) = units_sequance(input)?;
     input = next_input;
-
-    let parser = combinators::pair(link, unit);
-    loop {
-        match parser.parse(input) {
-            Ok((next_input, nq_tokens)) => {
-                nq_lang.push(NQToken::Link(nq_tokens.0));
-                nq_lang.push(NQToken::Unit(nq_tokens.1));
-                input = next_input;
-            }
-            Err(_) => {
-                break;
-            }
-        }
-    }
 
     loop {
         match extension(input) {
-            Ok((next_input, nq_token)) => {
-                nq_lang.push(NQToken::Extension(nq_token));
+            Ok((next_input, token)) => {
+                tokens.push(NQToken::Extension(token));
                 input = next_input;
             }
             Err(_) => {
@@ -45,7 +27,7 @@ pub fn nqlang(mut input: &str) -> ParsingResult<NQLang> {
         }
     }
 
-    Ok((input, nq_lang))
+    Ok((input, tokens))
 }
 
 #[cfg(test)]

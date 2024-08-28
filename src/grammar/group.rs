@@ -1,9 +1,9 @@
 use crate::{primitives, Parser, ParsingResult};
 
-use super::{nqlang, NQLang};
+use super::{units_sequance, NQLang};
 
 pub fn group(input: &str) -> ParsingResult<NQLang> {
-    nqlang
+    units_sequance
         .wrap_before(primitives::character('('))
         .wrap_after(primitives::character(')'))
         .parse(input)
