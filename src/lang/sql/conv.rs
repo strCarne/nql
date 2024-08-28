@@ -108,13 +108,59 @@ pub fn link(l: &Link) -> &'static str {
 #[cfg(test)]
 mod tests {
 
+    use crate::{
+        basic_types::Number,
+        grammar::value::{OrdinaryValue, RangeBounds},
+    };
+
     use super::*;
     use pretty_assertions::assert_eq;
 
     #[test]
-    #[ignore = "not implemented"]
     fn statement_conv_test() {
-        todo!("Implement test");
+        use ComparasionOperator::*;
+
+        let input_data = vec![
+            KeyValue {
+                k: "DAGESTAN".to_string(),
+                op: Eq,
+                v: Value::OrdinaryValue(OrdinaryValue::String("one love".to_string())),
+            },
+            KeyValue {
+                k: "simple_coll".to_string(),
+                op: Eq,
+                v: Value::Collection(Collection::OrColl(vec![
+                    OrdinaryValue::Boolean(false),
+                    OrdinaryValue::Boolean(true),
+                ])),
+            },
+            KeyValue {
+                k: "r".to_string(),
+                op: Eq,
+                v: Value::Range(Range {
+                    bounds: RangeBounds::NumberRange(Number::Integer(1), Number::Integer(2)),
+                    op: RangeOp::EE,
+                }),
+            },
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            "DAGESTAN = 'one love'",
+            "(simple_coll = false OR simple_coll = true)",
+            "(1 < r AND r < 2)",
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(statement(&input), expected);
+        }
     }
 
     #[test]
