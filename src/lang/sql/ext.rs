@@ -235,8 +235,89 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "not implemented"]
     fn offset_test() {
-        todo!("Make unit test");
+        let input_data = vec![
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+                KeyValue {
+                    k: String::from("offset"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("offset"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("offset"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("offsets"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+                KeyValue {
+                    k: String::from("table_name"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+            ],
+        ]
+        .into_iter();
+
+        let expected_results = vec![Some(10), Some(10), Some(10), None].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(offset(&input), expected);
+        }
     }
 }
