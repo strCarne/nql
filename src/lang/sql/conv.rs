@@ -23,20 +23,20 @@ pub fn statement(stmt: &KeyValue) -> String {
             let bounds = bounds.to_strings();
             let result = match op {
                 RangeOp::EE => format!(
-                    "({} < {} AND {} < {})",
-                    bounds.0, &stmt.k, &stmt.k, bounds.1
+                    "({} > {} AND {} < {})",
+                    &stmt.k, bounds.0, &stmt.k, bounds.1
                 ),
                 RangeOp::EI => format!(
-                    "({} < {} AND {} <= {})",
-                    bounds.0, &stmt.k, &stmt.k, bounds.1
+                    "({} > {} AND {} <= {})",
+                    &stmt.k, bounds.0, &stmt.k, bounds.1
                 ),
                 RangeOp::IE => format!(
-                    "({} <= {} AND {} < {})",
-                    bounds.0, &stmt.k, &stmt.k, bounds.1
+                    "({} >= {} AND {} < {})",
+                    &stmt.k, bounds.0, &stmt.k, bounds.1
                 ),
                 RangeOp::II => format!(
-                    "({} <= {} AND {} <= {})",
-                    bounds.0, &stmt.k, &stmt.k, bounds.1
+                    "({} >= {} AND {} <= {})",
+                    &stmt.k, bounds.0, &stmt.k, bounds.1
                 ),
             };
             buf += &result;
@@ -148,7 +148,7 @@ mod tests {
         let expected_results = vec![
             "DAGESTAN = 'one love'",
             "(simple_coll = false OR simple_coll = true)",
-            "(1 < r AND r < 2)",
+            "(r > 1 AND r < 2)",
         ]
         .into_iter();
 
