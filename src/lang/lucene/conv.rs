@@ -94,3 +94,39 @@ pub fn link(l: &Link) -> &'static str {
         Link::Or => " OR ",
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    #[ignore = "not implemented yet"]
+    fn statement_conv_test() {
+        todo!("Implement unit test");
+    }
+
+    #[test]
+    #[ignore = "not implemented yet"]
+    fn group_conv_test() {
+        todo!("Implement unit test");
+    }
+
+    #[test]
+    fn link_conv_test() {
+        let input_data = vec![Link::And, Link::Or].into_iter();
+
+        let expected_results = vec![" AND ", " OR "].into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(link(&input), expected);
+        }
+    }
+}
