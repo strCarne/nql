@@ -40,3 +40,122 @@ pub fn offset(extensions: &Vec<KeyValue>) -> Option<i64> {
     }
     None
 }
+
+#[cfg(test)]
+mod tests {
+
+    use std::panic;
+
+    use super::*;
+    use crate::grammar::ComparasionOperator;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn table_test() {
+        let input_data = vec![
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+                KeyValue {
+                    k: String::from("table"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+            ],
+            vec![
+                KeyValue {
+                    k: String::from("boost"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Float(1.5))),
+                },
+                KeyValue {
+                    k: String::from("limit"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::Number(Number::Integer(10))),
+                },
+                KeyValue {
+                    k: String::from("table_name"),
+                    op: ComparasionOperator::Eq,
+                    v: Value::OrdinaryValue(OrdinaryValue::String(String::from("famous_persons"))),
+                },
+            ],
+        ]
+        .into_iter();
+
+        let expected_results = vec![
+            (false, "famous_persons".to_string()),
+            (false, "famous_persons".to_string()),
+            (false, "famous_persons".to_string()),
+            (true, "".to_string()),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            input_data.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            let result = match panic::catch_unwind(move || table(&input)) {
+                Ok(result) => (false, result),
+                Err(_) => (true, String::new()),
+            };
+            assert_eq!(result, expected);
+        }
+    }
+
+    #[test]
+    #[ignore = "not implemented"]
+    fn limit_test() {
+        todo!("Make unit test");
+    }
+
+    #[test]
+    #[ignore = "not implemented"]
+    fn offset_test() {
+        todo!("Make unit test");
+    }
+}
