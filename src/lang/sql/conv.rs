@@ -97,7 +97,7 @@ pub fn group(grp: &NQLang) -> String {
 
 pub fn link(l: &Link) -> String {
     match l {
-        Link::And => String::from("AND"),
-        Link::Or => String::from("OR"),
+        Link::And => String::from(" AND "),
+        Link::Or => String::from(" OR "),
     }
 }
