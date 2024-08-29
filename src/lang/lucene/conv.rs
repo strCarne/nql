@@ -190,6 +190,10 @@ mod tests {
             expected_results.len(),
             "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
         );
+
+        for (input, expected) in input_data.zip(expected_results) {
+            assert_eq!(group(&input), expected);
+        }
     }
 
     #[test]
