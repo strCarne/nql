@@ -6,30 +6,46 @@
 
 ## Documentation on language grammar
 
+NQLang is the main lexeme. Basicaly, NQLang means a valid sequance of other lexemes
+that can represent NQL.
 ```
 NQLang ::= UnitsSequance Extension*
 ```
 
+UnitsSequance is the main part of the language that contains statements and group
+of statements that are connected with the link.
 ```
 UnitsSequance ::= Unit (Link Unit)*
 ```
 
+Link is the boolean operator that establishes logical relations between language's
+units.
 ```
 Link ::= WhitespaceWrap (AND | OR) WhitespaceWrap
 AND ::= \&
 OR ::= \|
 ```
 
+Unit is either a statement or a group wrapped with whitespaces.
 ```
 Unit ::= WhitespaceWrap (Statement | Group) WhitespaceWrap
+```
 
+Group is valid sequance of NQL's lexemes wrapped with braces.
+```
 Group ::= OpenBrace UnitsSequance CloseBrace
 OpenBrace ::= \(
 CloseBrace ::= \)
+```
 
+Statement is just a pair of key and value.
+```
 Statement ::= KeyValue
 ```
 
+Extensions is the optional part of the language, but some converters require
+them in order to convert NQL tokens to their own. Like for example SQL converter
+requires extension called 'table' and if it is not provided, then it will panic.
 ```
 Extension ::= ExtensionEscape KeyValue WhitespaceWrap
 ExtensionEscape ::= \$
@@ -54,6 +70,8 @@ True ::= [Tt][Rr][Uu][Ee]
 False ::= [Ff][Aa][Ll][Ss][Ee]
 ```
 
+Dates are also checked for corrletion of number of days to a month number, leap
+years are alse checked.
 ```
 Date ::= Day:Month:Year
 Day ::= Integer
