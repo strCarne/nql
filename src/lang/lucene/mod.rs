@@ -120,7 +120,7 @@ mod tests {
 
         let expected_results = vec![
             "key_1:[-1 TO 1} AND  OR  AND ",
-            "((name:'Semion' AND surname:'Voevoda') OR (name:'Simon' AND surname:'Vogue')) AND (favourite_colors:'Black' AND favourite_colors:'Green' AND favourite_colors:'Blue' AND favourite_colors:'Purple' AND favourite_colors:'Red' AND favourite_colors:'White')",
+            "((name:Semion AND surname:Voevoda) OR (name:Simon AND surname:Vogue)) AND (favourite_colors:Black AND favourite_colors:Green AND favourite_colors:Blue AND favourite_colors:Purple AND favourite_colors:Red AND favourite_colors:White)",
         ].into_iter();
 
         assert_eq!(

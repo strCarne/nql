@@ -20,7 +20,8 @@ pub fn statement(stmt: &KeyValue) -> String {
             if let ComparasionOperator::NotEq = stmt.op {
                 buf += "NOT ";
             }
-            buf += &format!("{}{}{}", &stmt.k, op, val.to_string());
+            let value = ordinary_value(val);
+            buf += &format!("{}{}{}", &stmt.k, op, value);
         }
         Value::Range(Range { bounds, op }) => {
             buf += &stmt.k;
@@ -51,12 +52,14 @@ fn collection_body(key: &str, op: &str, coll: &Vec<OrdinaryValue>, l: &Link) -> 
 
     let mut iter = coll.iter();
     if let Some(val) = iter.next() {
-        buf.push_str(&format!("{}{}{}", key, op, val.to_string()));
+        let value = ordinary_value(val);
+        buf.push_str(&format!("{}{}{}", key, op, value));
     }
 
     for val in iter {
+        let value = ordinary_value(val);
         buf.push_str(&link(l));
-        buf.push_str(&format!("{}{}{}", key, op, val.to_string()));
+        buf.push_str(&format!("{}{}{}", key, op, value));
     }
 
     buf.push(')');
@@ -92,6 +95,18 @@ pub fn link(l: &Link) -> &'static str {
     match l {
         Link::And => " AND ",
         Link::Or => " OR ",
+    }
+}
+
+fn ordinary_value(val: &OrdinaryValue) -> String {
+    if let OrdinaryValue::String(s) = val {
+        if s.contains(char::is_whitespace) {
+            val.to_string()
+        } else {
+            s.to_string()
+        }
+    } else {
+        val.to_string()
     }
 }
 
@@ -180,9 +195,9 @@ mod tests {
         .into_iter();
 
         let expected_results = vec![
-            "(key:'value')",
-            "(key:'value')",
-            "(key_1:'value_1' OR key_2:'value_2')",
+            "(key:value)",
+            "(key:value)",
+            "(key_1:value_1 OR key_2:value_2)",
         ];
 
         assert_eq!(
