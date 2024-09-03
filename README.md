@@ -55,7 +55,8 @@ ExtensionEscape ::= \$
 KeyValue ::= Key ComparasionOperator Value
 ComparasionOperator ::= WhitespaceWrap (= | (!=) | (<=) | (>=) | < | >) WhitespaceWrap
 
-Key ::= [a-zA-Z_][a-zA-Z0-9_]*
+Key ::= Ident(Point Ident)*
+Ident ::= [a-zA-Z_][a-zA-Z0-9_]*
 
 Value ::= OrdinaryValue | Range | Collection
 ```

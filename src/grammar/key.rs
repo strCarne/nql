@@ -1,7 +1,26 @@
-use crate::{primitives::any, Parser, ParsingResult};
+use crate::{
+    combinators,
+    primitives::{self, any},
+    Parser, ParsingResult,
+};
 
-// KEY ::= [a-zA-Z_][a-zA-Z0-9_]*
-pub fn key(input: &str) -> ParsingResult<String> {
+// KEY ::= IDENT(\.IDENT)*
+// IDENT ::= [a-zA-Z_][a-zA-Z0-9_]*
+pub fn key(mut input: &str) -> ParsingResult<String> {
+    let (next_input, mut matched) = ident(input)?;
+    input = next_input;
+
+    let parser = combinators::right(primitives::character('.'), ident);
+    while let Ok((next_input, next_ident)) = parser.parse(input) {
+        matched.push('.');
+        matched += &next_ident;
+        input = next_input;
+    }
+
+    Ok((input, matched))
+}
+
+fn ident(input: &str) -> ParsingResult<String> {
     any.pred(|c| c.is_ascii_alphabetic() || *c == '_')
         .and_then(|c| {
             move |mut input| {
@@ -36,6 +55,7 @@ mod tests {
             "high_five",
             "cringe2004",
             "9_times",
+            "a.b.c",
         ]
         .into_iter();
 
@@ -47,6 +67,7 @@ mod tests {
             Ok(("", String::from("high_five"))),
             Ok(("", String::from("cringe2004"))),
             Err("9_times"),
+            Ok(("", String::from("a.b.c"))),
         ]
         .into_iter();
 
